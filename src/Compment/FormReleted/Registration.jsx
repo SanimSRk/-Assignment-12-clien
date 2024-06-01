@@ -8,8 +8,12 @@ import Swal from 'sweetalert2';
 import { useState } from 'react';
 
 const Registration = () => {
-  const { handileClikeCreateUser, handileUpdateUser, handileClickLoginUser } =
-    useAuth();
+  const {
+    handileClikeCreateUser,
+    handileUpdateUser,
+
+    handileClickGoogleSing,
+  } = useAuth();
   const axiosPublice = useAxiosPublice();
   const [coin, setCoin] = useState();
 
@@ -30,7 +34,6 @@ const Registration = () => {
     const formData = new FormData();
     formData.append('image', img);
 
-    let coin = 10;
     if (role === 'worker') {
       setCoin(10);
     } else if (role === 'taskCreator') {
@@ -64,7 +67,7 @@ const Registration = () => {
                   console.log(res.data);
                   if (res.data.insertedId) {
                     Swal.fire({
-                      position: 'top-end',
+                      position: 'top-center',
                       icon: 'success',
                       title: 'Suscess fully registration done ',
                       showConfirmButton: false,
@@ -83,11 +86,27 @@ const Registration = () => {
   };
 
   const handileGoogleLoging = () => {
-    handileClickLoginUser()
+    handileClickGoogleSing()
       .then(res => {
-        console.log(res.user);
+        const email = res?.user?.email;
+        const fullName = res?.user?.displayName;
+        const image = res?.user?.photoURL;
+        const role = 'worker';
+        const coin = 10;
+        const userInfo = { email, fullName, image, role, coin };
         if (res.user) {
-          navigate(location.state || '/');
+          axiosPublice.post('/users', userInfo).then(res => {
+            if (res.data.insertedId) {
+              Swal.fire({
+                position: 'top-center',
+                icon: 'success',
+                title: 'Suscess fully registration done ',
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate(location.state || '/');
+            }
+          });
         }
       })
       .catch(error => {

@@ -1,6 +1,8 @@
 import { Link, NavLink } from 'react-router-dom';
+import useAuth from '../../Hooks/useAuth';
 
 const Naver = () => {
+  const { user, hanidleClickLogouts } = useAuth();
   const naviLinks = (
     <>
       <NavLink
@@ -23,8 +25,30 @@ const Naver = () => {
       >
         Watch Demo
       </NavLink>
+      {user && (
+        <NavLink
+          to={'/'}
+          className={({ isActive }) =>
+            isActive
+              ? 'px-4  py-2  text-green-400 text-xl font-extrabold'
+              : 'font-extrabold px-4  py-2 text-xl'
+          }
+        >
+          Dashboard
+        </NavLink>
+      )}
     </>
   );
+
+  const handileLogout = () => {
+    hanidleClickLogouts()
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
   return (
     <div>
       <div className="navbar bg-base-100">
@@ -67,52 +91,53 @@ const Naver = () => {
           <ul className="menu menu-horizontal px-1"> {naviLinks}</ul>
         </div>
         <div className="navbar-end gap-4">
-          <>
-            <div className="dropdown dropdown-end">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost btn-circle avatar"
-              >
-                <div className="w-10 rounded-full">
-                  <img
-                    alt="Tailwind CSS Navbar component"
-                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                  />
+          {user ? (
+            <>
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
+                  <div className="w-10 rounded-full">
+                    <img src={user.photoURL} />
+                  </div>
                 </div>
-              </div>
-              <ul
-                tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-              >
-                <li>
-                  <a className="justify-between">
-                    Profile
-                    <span className="badge">New</span>
-                  </a>
-                </li>
-                <li>
-                  <a>Settings</a>
-                </li>
-                <li>
-                  <a>Logout</a>
-                </li>
-              </ul>
-            </div>
-          </>
-          <>
-            <Link to={'/login'}>
-              <button className="font-semibold btn bg-green-400 text-white">
-                Login
-              </button>
-            </Link>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                >
+                  <li>
+                    <a className="justify-between">
+                      {user.displayName}
+                      <span className="badge">New</span>
+                    </a>
+                  </li>
 
-            <Link to={'/register'}>
-              <button className="font-semibold btn bg-green-400 text-white">
-                Register
-              </button>
-            </Link>
-          </>
+                  <li>
+                    <a>Settings</a>
+                  </li>
+                  <li onClick={handileLogout}>
+                    <a>Logout</a>
+                  </li>
+                </ul>
+              </div>
+            </>
+          ) : (
+            <>
+              <Link to={'/login'}>
+                <button className="font-semibold btn bg-green-400 text-white">
+                  Login
+                </button>
+              </Link>
+
+              <Link to={'/register'}>
+                <button className="font-semibold btn bg-green-400 text-white">
+                  Register
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>
