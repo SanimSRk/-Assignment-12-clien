@@ -9,13 +9,14 @@ import {
 } from 'firebase/auth';
 import { createContext, useEffect, useState } from 'react';
 import auth from '../Firebase/Firebase.init';
+import useAxiosPublice from '../Hooks/AxiosPublic/useAxiosPublice';
 
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loding, setLoding] = useState(true);
-
+  const axiosPublice = useAxiosPublice();
   const providerGoogle = new GoogleAuthProvider();
   const handileClikeCreateUser = (email, password) => {
     setLoding(true);
@@ -48,10 +49,18 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       if (currentUser) {
-        setLoding(false);
         setUser(currentUser);
+        const userInfo = { email: currentUser.email };
+
+        axiosPublice.post('/jwt', userInfo).then(res => {
+          if (res.data.token) {
+            localStorage.setItem('token', res.data.token);
+            setLoding(false);
+          }
+        });
       } else {
         setLoding(false);
+        localStorage.removeItem('token');
       }
     });
     return () => unsubscribe;
