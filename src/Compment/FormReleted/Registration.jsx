@@ -3,10 +3,15 @@ import { FcGoogle } from 'react-icons/fc';
 import useAuth from '../../Hooks/useAuth';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
+import useAxiosPublice from '../../Hooks/AxiosPublic/useAxiosPublice';
+import Swal from 'sweetalert2';
+import { useState } from 'react';
 
 const Registration = () => {
   const { handileClikeCreateUser, handileUpdateUser, handileClickLoginUser } =
     useAuth();
+  const axiosPublice = useAxiosPublice();
+  const [coin, setCoin] = useState();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -20,10 +25,18 @@ const Registration = () => {
 
   const onSubmit = data => {
     const { fullName, email, photo, password, role } = data;
-    console.log(data);
+
     const img = photo[0];
     const formData = new FormData();
     formData.append('image', img);
+
+    let coin = 10;
+    if (role === 'worker') {
+      setCoin(10);
+    } else if (role === 'taskCreator') {
+      setCoin(50);
+    }
+
     handileClikeCreateUser(email, password)
       .then(res => {
         console.log(res.user);
@@ -37,8 +50,30 @@ const Registration = () => {
             )
             .then(res => {
               const image = res?.data?.data?.display_url;
-              handileUpdateUser(fullName, image);
-              navigate(location.state || '/');
+
+              const userInfo = {
+                image,
+                fullName,
+                email,
+                role,
+                coin: parseInt(coin),
+              };
+              console.log(userInfo);
+              handileUpdateUser(fullName, image).then(() => {
+                axiosPublice.post('/users', userInfo).then(res => {
+                  console.log(res.data);
+                  if (res.data.insertedId) {
+                    Swal.fire({
+                      position: 'top-end',
+                      icon: 'success',
+                      title: 'Suscess fully registration done ',
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                    navigate(location.state || '/');
+                  }
+                });
+              });
             });
         }
       })
