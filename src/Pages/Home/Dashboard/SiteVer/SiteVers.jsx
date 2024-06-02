@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { AiOutlineBars } from 'react-icons/ai';
-import { BsFillHouseAddFill, BsGraphUp } from 'react-icons/bs';
+import { BiSolidPurchaseTag } from 'react-icons/bi';
+import { FaHome } from 'react-icons/fa';
 import { FcSettings } from 'react-icons/fc';
 import { GrLogout } from 'react-icons/gr';
-import { MdHomeWork } from 'react-icons/md';
+import { MdAddToPhotos, MdPayment, MdTaskAlt } from 'react-icons/md';
 import { Link, NavLink } from 'react-router-dom';
 
 const SiteVers = () => {
@@ -20,14 +21,14 @@ const SiteVers = () => {
         <div className="bg-gray-100 text-gray-800 flex justify-between lg:hidden ">
           <div>
             <div className="block cursor-pointer p-4 font-bold">
-              <Link to="/">
-                <img
-                  // className='hidden md:block'
-                  src="https://i.ibb.co/4ZXzmq5/logo.png"
-                  alt="logo"
-                  width="100"
-                  height="100"
-                />
+              <Link to={'/'}>
+                <div className="flex items-center">
+                  <img className="w-12" src="/askstream-logo.png" alt="" />
+                  <a className=" text-2xl gap-0 font-bold ">
+                    <span className="text-green-500 ">T</span>ask
+                    <span className="text-green-400">Stream</span>
+                  </a>
+                </div>
               </Link>
             </div>
           </div>
@@ -48,15 +49,15 @@ const SiteVers = () => {
         >
           <div>
             <div>
-              <div className="w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-rose-100 mx-auto">
-                <Link to="/">
-                  <img
-                    // className='hidden md:block'
-                    src="https://i.ibb.co/4ZXzmq5/logo.png"
-                    alt="logo"
-                    width="100"
-                    height="100"
-                  />
+              <div className="w-full hidden md:flex px-4 py-2 shadow-sm rounded-lg justify-center items-center  mx-auto">
+                <Link to={'/'}>
+                  <div className="flex items-center">
+                    <img className="w-12" src="/askstream-logo.png" alt="" />
+                    <a className=" text-2xl gap-0 font-bold ">
+                      <span className="text-green-500 ">T</span>ask
+                      <span className="text-green-400">Stream</span>
+                    </a>
+                  </div>
                 </Link>
               </div>
             </div>
@@ -67,45 +68,69 @@ const SiteVers = () => {
 
               {/*  Menu Items */}
               <nav>
-                {/* Statistics */}
+                {/* Home section */}
                 <NavLink
-                  to="statistics"
+                  to="creatorHome"
                   className={({ isActive }) =>
                     `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
                       isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
                     }`
                   }
                 >
-                  <BsGraphUp className="w-5 h-5" />
+                  <FaHome className="w-5 h-5" />
 
-                  <span className="mx-4 font-medium">Statistics</span>
+                  <span className="mx-4 font-medium">Home</span>
                 </NavLink>
 
-                {/* Add Room */}
+                {/* Add new tasks */}
                 <NavLink
-                  to="add-room"
+                  to="addTasks"
                   className={({ isActive }) =>
                     `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
                       isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
                     }`
                   }
                 >
-                  <BsFillHouseAddFill className="w-5 h-5" />
+                  <MdAddToPhotos className="w-5 h-5" />
 
-                  <span className="mx-4 font-medium">Add Room</span>
+                  <span className="mx-4 font-medium">Add new Tasks</span>
                 </NavLink>
-                {/* My Listing */}
+                {/* My Listing task */}
                 <NavLink
-                  to="my-listings"
+                  to="myTasks"
                   className={({ isActive }) =>
                     `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
                       isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
                     }`
                   }
                 >
-                  <MdHomeWork className="w-5 h-5" />
+                  <MdTaskAlt className="w-5 h-5" />
 
-                  <span className="mx-4 font-medium">My Listings</span>
+                  <span className="mx-4 font-medium">My Tasks</span>
+                </NavLink>
+                {/*Purchase Coin */}
+                <NavLink
+                  to="purchas"
+                  className={({ isActive }) =>
+                    `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                      isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+                    }`
+                  }
+                >
+                  <BiSolidPurchaseTag className="w-5 h-5" />
+                  <span className="mx-4 font-medium">Purchase Coin</span>
+                </NavLink>
+                {/* My payment hostry */}
+                <NavLink
+                  to="paymentsHostry"
+                  className={({ isActive }) =>
+                    `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                      isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+                    }`
+                  }
+                >
+                  <MdPayment className="w-5 h-5" />
+                  <span className="mx-4 font-medium">Payment history</span>
                 </NavLink>
               </nav>
             </div>
