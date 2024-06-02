@@ -27,7 +27,7 @@ const Naver = () => {
       </NavLink>
       {user && (
         <NavLink
-          to={'/'}
+          to={'/dashboard'}
           className={({ isActive }) =>
             isActive
               ? 'px-4  py-2  text-green-400 text-xl font-extrabold'
@@ -51,7 +51,7 @@ const Naver = () => {
   };
   return (
     <div>
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-base-100 z-10">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -93,7 +93,7 @@ const Naver = () => {
         <div className="navbar-end gap-4">
           {user ? (
             <>
-              <div className="dropdown dropdown-end">
+              <div className="dropdown dropdown-end z-10">
                 <div
                   tabIndex={0}
                   role="button"
