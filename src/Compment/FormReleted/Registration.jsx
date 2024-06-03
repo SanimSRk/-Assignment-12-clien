@@ -34,9 +34,9 @@ const Registration = () => {
     const formData = new FormData();
     formData.append('image', img);
 
-    if (role === 'worker') {
+    if (role == 'worker') {
       setCoin(10);
-    } else if (role === 'taskCreator') {
+    } else if (role == 'taskCreator') {
       setCoin(50);
     }
 
