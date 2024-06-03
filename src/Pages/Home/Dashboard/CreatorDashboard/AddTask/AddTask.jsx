@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../../../Hooks/useAuth';
 import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
+import Swal from 'sweetalert2';
 
 const AddTask = () => {
   const { user } = useAuth();
@@ -24,7 +25,6 @@ const AddTask = () => {
   }
   current_time = dd + '/' + mm + '/' + yyyy;
 
-  console.log(current_time);
   const {
     register,
     handleSubmit,
@@ -72,6 +72,15 @@ const AddTask = () => {
         if (res?.data?.data?.display_url) {
           axiosPublice.post('/alltasks', tasks).then(res => {
             console.log(res.data);
+            if (res.data.insertedId) {
+              Swal.fire({
+                position: 'top-center',
+                icon: 'success',
+                title: 'Suscess fully tasks added',
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
           });
         }
       })
