@@ -15,7 +15,6 @@ const Registration = () => {
     handileClickGoogleSing,
   } = useAuth();
   const axiosPublice = useAxiosPublice();
-  const [coin, setCoin] = useState();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,12 +32,6 @@ const Registration = () => {
     const img = photo[0];
     const formData = new FormData();
     formData.append('image', img);
-
-    if (role == 'worker') {
-      setCoin(10);
-    } else if (role == 'taskCreator') {
-      setCoin(50);
-    }
 
     handileClikeCreateUser(email, password)
       .then(res => {
@@ -83,6 +76,9 @@ const Registration = () => {
       .catch(error => {
         console.log(error);
       });
+  };
+  const handleConis = items => {
+    console.log(items);
   };
 
   const handileGoogleLoging = () => {
@@ -182,7 +178,9 @@ const Registration = () => {
               <select
                 className="select select-bordered w-full border-green-400"
                 required
-                {...register('role', { required: true })}
+                name="role"
+                onChange={e => handleConis(e.target.role.value)}
+                // {...register('role', { required: true })}
               >
                 <option disabled selected>
                   Select your role

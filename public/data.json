@@ -1,0 +1,30 @@
+[
+  {
+    "coins": 10,
+    "price": 1,
+    "currency": "USD",
+    "description": "10 coins = 1 dollar",
+    "purchase_description": "Purchase 10 coins for 1 dollar."
+  },
+  {
+    "coins": 100,
+    "price": 9,
+    "currency": "USD",
+    "description": "100 coins = 9 dollars",
+    "purchase_description": "Purchase 100 coins for 9 dollars."
+  },
+  {
+    "coins": 500,
+    "price": 19,
+    "currency": "USD",
+    "description": "500 coins = 19 dollars",
+    "purchase_description": "Purchase 500 coins for 19 dollars."
+  },
+  {
+    "coins": 1000,
+    "price": 39,
+    "currency": "USD",
+    "description": "1000 coins = 39 dollars",
+    "purchase_description": "Purchase 1000 coins for 39 dollars."
+  }
+]

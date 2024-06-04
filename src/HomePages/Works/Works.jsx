@@ -15,7 +15,7 @@ const Works = () => {
       <div className="mt-12">
         <div className=" lg:flex gap-4">
           <div className="lg:w-1/2">
-            <h2 className="text-3xl font-bold">
+            <h2 className="text-3xl font-bold text-green-500">
               Register for Exclusive Access and Personalized Rewards
             </h2>
             <p className="mt-4">
@@ -38,7 +38,7 @@ const Works = () => {
         </div>
         <div className="lg:flex gap-4 mt-12 flex-row-reverse">
           <div className="lg:w-1/2 ">
-            <h2 className="text-3xl font-bold">
+            <h2 className="text-3xl font-bold  text-green-500">
               Explore, Engage, and Earn Rewards by Completing Tasks
             </h2>
             <p className="mt-4">
@@ -57,7 +57,7 @@ const Works = () => {
         </div>
         <div className="lg:flex gap-4 mt-14 ">
           <div className="lg:w-1/2">
-            <h2 className="text-3xl font-bold">
+            <h2 className="text-3xl font-bold  text-green-500">
               Elevate Your Experience: Earn Rewards and Enjoy a World of Perks
             </h2>
             <p className="mt-4">

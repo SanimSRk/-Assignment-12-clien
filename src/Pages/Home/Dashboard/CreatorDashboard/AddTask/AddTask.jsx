@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import useAuth from '../../../../../Hooks/useAuth';
 import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import Swal from 'sweetalert2';
+import { DateRange } from 'react-date-range';
+import { useState } from 'react';
 
 const AddTask = () => {
   const { user } = useAuth();
@@ -156,10 +158,10 @@ const AddTask = () => {
                 <span className="label-text">Completion_date</span>
               </label>
               <input
-                type="text"
-                placeholder="Enter completion_date "
+                type="date"
+                name=""
+                id=""
                 className="input input-bordered"
-                required
                 {...register('completion_date', { required: true })}
               />
             </div>

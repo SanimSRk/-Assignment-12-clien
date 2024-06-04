@@ -9,6 +9,11 @@ import AddTask from '../Pages/Home/Dashboard/CreatorDashboard/AddTask/AddTask';
 import Mytask from '../Pages/Home/Dashboard/CreatorDashboard/MyTask/Mytask';
 import PurchaseCoin from '../Pages/Home/Dashboard/CreatorDashboard/Purchase/PurchaseCoin';
 import Payments from '../Pages/Home/Dashboard/CreatorDashboard/Payments/Payments';
+import WorkerHomes from '../Pages/Home/Dashboard/WorkerDashboard/WorkerHome/WorkerHomes';
+import MySubmissions from '../Pages/Home/Dashboard/WorkerDashboard/MySubmissions/MySubmissions';
+import TaskList from '../Pages/Home/Dashboard/WorkerDashboard/TaskList/TaskList';
+import Withdrawals from '../Pages/Home/Dashboard/WorkerDashboard/Withdrawals/Withdrawals';
+import TasksDeatils from '../Pages/Home/Dashboard/WorkerDashboard/TaskList/TasksDeatils';
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +38,7 @@ export const router = createBrowserRouter([
     path: '/dashboard',
     element: <Dashboard></Dashboard>,
     children: [
+      // >>>>>>>>>>>>>tasks creator dashboard section>>>>>>>>>>>>>
       {
         path: 'creatorHome',
         element: <CreatorHome></CreatorHome>,
@@ -52,6 +58,30 @@ export const router = createBrowserRouter([
       {
         path: 'paymentsHostry',
         element: <Payments></Payments>,
+      },
+      //>>>>>>>>>>>>>worker dashboard section>>>>>>>>>>>>>
+      {
+        path: 'workerHome',
+        element: <WorkerHomes></WorkerHomes>,
+      },
+      {
+        path: 'taskList',
+        element: <TaskList></TaskList>,
+      },
+
+      {
+        path: 'my-submission',
+        element: <MySubmissions></MySubmissions>,
+      },
+      {
+        path: 'withdrawals',
+        element: <Withdrawals></Withdrawals>,
+      },
+      {
+        path: 'tasksDeatils/:id',
+        element: <TasksDeatils></TasksDeatils>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/tasksDeatils/${params?.id}`),
       },
     ],
   },

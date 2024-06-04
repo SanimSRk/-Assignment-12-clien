@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { AiOutlineBars } from 'react-icons/ai';
-import { BiSolidPurchaseTag } from 'react-icons/bi';
-import { FaHome } from 'react-icons/fa';
+import { BiMoneyWithdraw, BiSolidPurchaseTag } from 'react-icons/bi';
+import { FaClipboardList, FaHome } from 'react-icons/fa';
 import { FcSettings } from 'react-icons/fc';
 import { GrLogout } from 'react-icons/gr';
-import { MdAddToPhotos, MdPayment, MdTaskAlt } from 'react-icons/md';
+import { MdAddTask, MdAddToPhotos, MdPayment, MdTaskAlt } from 'react-icons/md';
 import { Link, NavLink } from 'react-router-dom';
+import useUser from '../../../../Hooks/useUser';
 
 const SiteVers = () => {
   const [isActive, setActive] = useState(false);
-
+  const { data } = useUser();
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive);
@@ -67,72 +68,143 @@ const SiteVers = () => {
               {/* Conditional toggle button here.. */}
 
               {/*  Menu Items */}
-              <nav>
-                {/* Home section */}
-                <NavLink
-                  to="creatorHome"
-                  className={({ isActive }) =>
-                    `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
-                      isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
-                    }`
-                  }
-                >
-                  <FaHome className="w-5 h-5" />
+              {data?.role === 'worker' && (
+                <nav>
+                  <NavLink
+                    to="workerHome"
+                    className={({ isActive }) =>
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                        isActive
+                          ? 'bg-gray-300  text-gray-700'
+                          : 'text-gray-600'
+                      }`
+                    }
+                  >
+                    <FaHome className="w-5 h-5" />
 
-                  <span className="mx-4 font-medium">Home</span>
-                </NavLink>
+                    <span className="mx-4 font-medium">Home</span>
+                  </NavLink>
+                  <NavLink
+                    to="taskList"
+                    className={({ isActive }) =>
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                        isActive
+                          ? 'bg-gray-300  text-gray-700'
+                          : 'text-gray-600'
+                      }`
+                    }
+                  >
+                    <FaClipboardList className="w-5 h-5" />
 
-                {/* Add new tasks */}
-                <NavLink
-                  to="addTasks"
-                  className={({ isActive }) =>
-                    `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
-                      isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
-                    }`
-                  }
-                >
-                  <MdAddToPhotos className="w-5 h-5" />
+                    <span className="mx-4 font-medium"> TaskList</span>
+                  </NavLink>
+                  <NavLink
+                    to="my-submission"
+                    className={({ isActive }) =>
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                        isActive
+                          ? 'bg-gray-300  text-gray-700'
+                          : 'text-gray-600'
+                      }`
+                    }
+                  >
+                    <MdAddTask className="w-5 h-5" />
 
-                  <span className="mx-4 font-medium">Add new Tasks</span>
-                </NavLink>
-                {/* My Listing task */}
-                <NavLink
-                  to="myTasks"
-                  className={({ isActive }) =>
-                    `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
-                      isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
-                    }`
-                  }
-                >
-                  <MdTaskAlt className="w-5 h-5" />
+                    <span className="mx-4 font-medium">My Submissions</span>
+                  </NavLink>
+                  <NavLink
+                    to="withdrawals"
+                    className={({ isActive }) =>
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                        isActive
+                          ? 'bg-gray-300  text-gray-700'
+                          : 'text-gray-600'
+                      }`
+                    }
+                  >
+                    <BiMoneyWithdraw className="w-5 h-5" />
+                    <span className="mx-4 font-medium">Withdrawals</span>
+                  </NavLink>
+                </nav>
+              )}
+              {data?.role === 'taskCreator' && (
+                <nav>
+                  {/* Home section */}
+                  <NavLink
+                    to="creatorHome"
+                    className={({ isActive }) =>
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                        isActive
+                          ? 'bg-gray-300  text-gray-700'
+                          : 'text-gray-600'
+                      }`
+                    }
+                  >
+                    <FaHome className="w-5 h-5" />
 
-                  <span className="mx-4 font-medium">My Tasks</span>
-                </NavLink>
-                {/*Purchase Coin */}
-                <NavLink
-                  to="purchas"
-                  className={({ isActive }) =>
-                    `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
-                      isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
-                    }`
-                  }
-                >
-                  <BiSolidPurchaseTag className="w-5 h-5" />
-                  <span className="mx-4 font-medium">Purchase Coin</span>
-                </NavLink>
-                {/* My payment hostry */}
-                <NavLink
-                  to="paymentsHostry"
-                  className={({ isActive }) =>
-                    `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
-                      isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
-                    }`
-                  }
-                >
-                  <MdPayment className="w-5 h-5" />
-                  <span className="mx-4 font-medium">Payment history</span>
-                </NavLink>
-              </nav>
+                    <span className="mx-4 font-medium">Home</span>
+                  </NavLink>
+
+                  {/* Add new tasks */}
+                  <NavLink
+                    to="addTasks"
+                    className={({ isActive }) =>
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                        isActive
+                          ? 'bg-gray-300  text-gray-700'
+                          : 'text-gray-600'
+                      }`
+                    }
+                  >
+                    <MdAddToPhotos className="w-5 h-5" />
+
+                    <span className="mx-4 font-medium">Add new Tasks</span>
+                  </NavLink>
+                  {/* My Listing task */}
+                  <NavLink
+                    to="myTasks"
+                    className={({ isActive }) =>
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                        isActive
+                          ? 'bg-gray-300  text-gray-700'
+                          : 'text-gray-600'
+                      }`
+                    }
+                  >
+                    <MdTaskAlt className="w-5 h-5" />
+
+                    <span className="mx-4 font-medium">My Tasks</span>
+                  </NavLink>
+                  {/*Purchase Coin */}
+                  <NavLink
+                    to="purchas"
+                    className={({ isActive }) =>
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                        isActive
+                          ? 'bg-gray-300  text-gray-700'
+                          : 'text-gray-600'
+                      }`
+                    }
+                  >
+                    <BiSolidPurchaseTag className="w-5 h-5" />
+                    <span className="mx-4 font-medium">Purchase Coin</span>
+                  </NavLink>
+                  {/* My payment hostry */}
+                  <NavLink
+                    to="paymentsHostry"
+                    className={({ isActive }) =>
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                        isActive
+                          ? 'bg-gray-300  text-gray-700'
+                          : 'text-gray-600'
+                      }`
+                    }
+                  >
+                    <MdPayment className="w-5 h-5" />
+                    <span className="mx-4 font-medium">Payment history</span>
+                  </NavLink>
+                </nav>
+              )}
             </div>
           </div>
 

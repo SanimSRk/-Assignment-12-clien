@@ -11,7 +11,6 @@ const Features = () => {
     });
   }, []);
 
-  console.log(feature.length);
   return (
     <div className="my-[110px]">
       <div className="lg:w-2/3 mx-auto text-center">
