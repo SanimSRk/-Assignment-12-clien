@@ -14,6 +14,9 @@ import MySubmissions from '../Pages/Home/Dashboard/WorkerDashboard/MySubmissions
 import TaskList from '../Pages/Home/Dashboard/WorkerDashboard/TaskList/TaskList';
 import Withdrawals from '../Pages/Home/Dashboard/WorkerDashboard/Withdrawals/Withdrawals';
 import TasksDeatils from '../Pages/Home/Dashboard/WorkerDashboard/TaskList/TasksDeatils';
+import AdminHomex from '../Pages/Home/Dashboard/AdminDashbord/AdminHome/AdminHomex';
+import ManegeUser from '../Pages/Home/Dashboard/AdminDashbord/ManegeUser/ManegeUser';
+import ManageTasks from '../Pages/Home/Dashboard/AdminDashbord/ManageTasks/ManageTasks';
 
 export const router = createBrowserRouter([
   {
@@ -82,6 +85,19 @@ export const router = createBrowserRouter([
         element: <TasksDeatils></TasksDeatils>,
         loader: ({ params }) =>
           fetch(`http://localhost:5000/tasksDeatils/${params?.id}`),
+      },
+      //>>>>>>>>>>>>>admin dashboard section>>>>>>>>>>>>>
+      {
+        path: 'adminHome',
+        element: <AdminHomex></AdminHomex>,
+      },
+      {
+        path: 'manageUser',
+        element: <ManegeUser></ManegeUser>,
+      },
+      {
+        path: 'manegaTasks',
+        element: <ManageTasks></ManageTasks>,
       },
     ],
   },
