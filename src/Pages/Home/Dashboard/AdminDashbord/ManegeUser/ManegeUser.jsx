@@ -3,23 +3,70 @@ import useAuth from '../../../../../Hooks/useAuth';
 import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
 import { BiSolidCoinStack } from 'react-icons/bi';
+import Swal from 'sweetalert2';
 
 const ManegeUser = () => {
   const { user } = useAuth();
   const axiosPublice = useAxiosPublice();
-  const { data } = useQuery({
+
+  const { data, refetch } = useQuery({
     queryKey: ['workers-user', user],
     queryFn: async () => {
       const { data } = await axiosPublice.get(`/worker-users`);
-      console.log(data);
       return data;
     },
   });
 
+  const handileClickRole = (roles, id, coins) => {
+    const role = roles;
+    const coin = coins;
+    const roleInfo = {
+      role,
+      coin,
+    };
+    axiosPublice.patch(`/user-role/${id}`, roleInfo).then(res => {
+      if (res.data.matchedCount) {
+        Swal.fire({
+          position: 'top-center',
+          icon: 'success',
+          title: 'Suscess fully registration done ',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        refetch();
+      }
+    });
+    console.log(role, coin);
+  };
+
+  const handileClikDelete = id => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then(result => {
+      if (result.isConfirmed) {
+        axiosPublice.delete(`/delete-user/${id}`).then(res => {
+          if (res.data.deletedCount) {
+            refetch();
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your file has been deleted.',
+              icon: 'success',
+            });
+          }
+        });
+      }
+    });
+  };
   return (
     <div>
       <div className="mt-8">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto ">
           <table className="table">
             {/* head */}
             <thead className="font-semibold  uppercase bg-green-400 text-white">
@@ -34,7 +81,7 @@ const ManegeUser = () => {
                 <th>ACTION</th>
               </tr>
             </thead>
-            {data.map((itm, index) => (
+            {data?.map((itm, index) => (
               <>
                 <tbody key={itm._id}>
                   <tr>
@@ -60,18 +107,43 @@ const ManegeUser = () => {
                       </div>
                     </td>
                     <td>
-                      <select className="select select-bordered w-full max-w-xs">
-                        <option disabled selected>
-                          select role
-                        </option>
-                        <option>admin</option>
-                        <option>task-creator</option>
-                        <option>worker</option>
-                      </select>
+                      <div>
+                        <div className="dropdown dropdown-end ">
+                          <div tabIndex={0} role="button" className="btn m-1">
+                            select role
+                          </div>
+                          <ul
+                            tabIndex={0}
+                            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                          >
+                            <li
+                              onClick={() =>
+                                handileClickRole('admin', itm?._id, 'unlimeted')
+                              }
+                            >
+                              <a>Admin</a>
+                            </li>
+                            <li
+                              onClick={() =>
+                                handileClickRole('task-creator', itm?._id, 50)
+                              }
+                            >
+                              <a>Task-creator</a>
+                            </li>
+                            <li
+                              onClick={() =>
+                                handileClickRole('worker', itm?._id, 10)
+                              }
+                            >
+                              <a>Worker</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
                     </td>
                     <th>
                       <button
-                        // onClick={() => handileClikDelete(itm?._id)}
+                        onClick={() => handileClikDelete(itm?._id)}
                         className="btn p-3 grid items-center justify-center rounded-full bg-orange-500 text-white"
                       >
                         <RiDeleteBin6Fill className="text-2xl" />{' '}

@@ -28,7 +28,7 @@ const Registration = () => {
 
   const onSubmit = data => {
     const { fullName, email, photo, password, role } = data;
-
+    const coin = 10;
     const img = photo[0];
     const formData = new FormData();
     formData.append('image', img);
@@ -52,7 +52,7 @@ const Registration = () => {
                 fullName,
                 email,
                 role,
-                coin: parseInt(coin),
+                coin,
               };
               console.log(userInfo);
               handileUpdateUser(fullName, image).then(() => {
@@ -76,9 +76,6 @@ const Registration = () => {
       .catch(error => {
         console.log(error);
       });
-  };
-  const handleConis = items => {
-    console.log(items);
   };
 
   const handileGoogleLoging = () => {
@@ -179,8 +176,8 @@ const Registration = () => {
                 className="select select-bordered w-full border-green-400"
                 required
                 name="role"
-                onChange={e => handleConis(e.target.role.value)}
-                // {...register('role', { required: true })}
+                // onChange={e => handleConis(e.target.role.value)}
+                {...register('role', { required: true })}
               >
                 <option disabled selected>
                   Select your role
