@@ -33,6 +33,7 @@ const TasksDeatils = () => {
   const onSubmit = data => {
     const submission_details = data?.submission_details;
     const task_id = _id;
+    const status = 'pending';
 
     const submitInfo = {
       task_id,
@@ -49,6 +50,7 @@ const TasksDeatils = () => {
       worker_email,
       worker_name,
       submission_details,
+      status,
     };
 
     axiosPublice.post('/tasks-submit', submitInfo).then(res => {
