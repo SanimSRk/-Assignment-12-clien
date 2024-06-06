@@ -83,6 +83,13 @@ const AddTask = () => {
                 timer: 1500,
               });
             }
+            if (res?.data?.message === 'notAvailable') {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Not available Coin. Purchase Coin',
+              });
+            }
           });
         }
       })
