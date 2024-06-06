@@ -17,6 +17,7 @@ import TasksDeatils from '../Pages/Home/Dashboard/WorkerDashboard/TaskList/Tasks
 import AdminHomex from '../Pages/Home/Dashboard/AdminDashbord/AdminHome/AdminHomex';
 import ManegeUser from '../Pages/Home/Dashboard/AdminDashbord/ManegeUser/ManegeUser';
 import ManageTasks from '../Pages/Home/Dashboard/AdminDashbord/ManageTasks/ManageTasks';
+import UpdateTasks from '../Pages/Home/Dashboard/WorkerDashboard/TaskList/UpdateTasks';
 
 export const router = createBrowserRouter([
   {
@@ -98,6 +99,12 @@ export const router = createBrowserRouter([
       {
         path: 'manegaTasks',
         element: <ManageTasks></ManageTasks>,
+      },
+      {
+        path: 'update-tasks/:id',
+        element: <UpdateTasks></UpdateTasks>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/updateTasks/${params.id}`),
       },
     ],
   },

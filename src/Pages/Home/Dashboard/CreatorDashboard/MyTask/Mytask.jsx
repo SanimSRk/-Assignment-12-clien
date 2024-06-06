@@ -5,6 +5,7 @@ import { RiDeleteBin6Fill } from 'react-icons/ri';
 import { MdUpdate } from 'react-icons/md';
 import { FaCoins } from 'react-icons/fa';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 const Mytask = () => {
   const { user } = useAuth();
@@ -16,7 +17,6 @@ const Mytask = () => {
       const { data } = await axiosPublice.get(
         `/my-tasks?creator_email=${user?.email}`
       );
-      console.log(data);
 
       return data;
     },
@@ -72,14 +72,18 @@ const Mytask = () => {
                     </th>
                     <td>{itm?.task_title}</td>
                     <td>{itm?.task_quantity}</td>
-                    <td className="flex items-center gap-1">
-                      {itm?.payable_amount}{' '}
-                      <FaCoins className="text-xl text-orange-500"></FaCoins>{' '}
+                    <td>
+                      <div className="flex items-center gap-1">
+                        {itm?.payable_amount}{' '}
+                        <FaCoins className="text-xl text-orange-500"></FaCoins>{' '}
+                      </div>
                     </td>
                     <th>
-                      <button className="btn p-3 grid items-center justify-center rounded-full bg-orange-500 text-white ">
-                        <MdUpdate className="text-2xl" />{' '}
-                      </button>
+                      <Link to={`/dashboard/update-tasks/${itm?._id}`}>
+                        <button className="btn p-3 grid items-center justify-center rounded-full bg-orange-500 text-white ">
+                          <MdUpdate className="text-2xl" />{' '}
+                        </button>
+                      </Link>
                     </th>
                     <th>
                       <button

@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useAxiosPublice from '../../Hooks/AxiosPublic/useAxiosPublice';
 import Swal from 'sweetalert2';
 import { useState } from 'react';
+import useUser from '../../Hooks/useUser';
 
 const Registration = () => {
   const {
@@ -15,9 +16,18 @@ const Registration = () => {
     handileClickGoogleSing,
   } = useAuth();
   const axiosPublice = useAxiosPublice();
-
+  const { data, refetch } = useUser();
   const location = useLocation();
   const navigate = useNavigate();
+  const [role, setRole] = useState('');
+  const [coin, setCoin] = useState(null);
+  const handileClickRole = (roles, coins) => {
+    const role = roles;
+    const coin = coins;
+    setRole(role);
+    setCoin(coin);
+  };
+  console.log(role, coin);
 
   const {
     register,
@@ -27,8 +37,8 @@ const Registration = () => {
   } = useForm();
 
   const onSubmit = data => {
-    const { fullName, email, photo, password, role } = data;
-    const coin = 10;
+    const { fullName, email, photo, password } = data;
+
     const img = photo[0];
     const formData = new FormData();
     formData.append('image', img);
@@ -66,6 +76,7 @@ const Registration = () => {
                       showConfirmButton: false,
                       timer: 1500,
                     });
+                    refetch;
                     navigate(location.state || '/');
                   }
                 });
@@ -169,22 +180,27 @@ const Registration = () => {
                   </a>
                 </label>
               </div>
-              <label className="label">
-                <span className="label-text">Select your role</span>
-              </label>
-              <select
-                className="select select-bordered w-full border-green-400"
-                required
-                name="role"
-                // onChange={e => handleConis(e.target.role.value)}
-                {...register('role', { required: true })}
-              >
-                <option disabled selected>
-                  Select your role
-                </option>
-                <option>worker</option>
-                <option>taskCreator</option>
-              </select>
+              <div className="dropdown  ">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="input input-bordered m-1"
+                >
+                  select your role
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                >
+                  <li onClick={() => handileClickRole('taskCreator', 50)}>
+                    <a>Task-creator</a>
+                  </li>
+                  <li onClick={() => handileClickRole('worker', 10)}>
+                    <a>Worker</a>
+                  </li>
+                </ul>
+              </div>
+
               <div className="form-control mt-6">
                 <button className="btn bg-green-400 text-white">
                   Registration

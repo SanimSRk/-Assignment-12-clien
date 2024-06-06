@@ -125,7 +125,7 @@ const ManegeUser = () => {
                             </li>
                             <li
                               onClick={() =>
-                                handileClickRole('task-creator', itm?._id, 50)
+                                handileClickRole('taskCreator', itm?._id, 50)
                               }
                             >
                               <a>Task-creator</a>
