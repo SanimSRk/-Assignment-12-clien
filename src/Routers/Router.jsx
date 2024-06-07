@@ -106,6 +106,12 @@ export const router = createBrowserRouter([
         loader: ({ params }) =>
           fetch(`http://localhost:5000/updateTasks/${params.id}`),
       },
+      {
+        path: 'payments/:id',
+        element: <Payments></Payments>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/buy-cartId/${params.id}`),
+      },
     ],
   },
 ]);

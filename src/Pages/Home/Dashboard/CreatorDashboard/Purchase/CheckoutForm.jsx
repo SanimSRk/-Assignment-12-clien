@@ -1,23 +1,36 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import './ChackoutCss/common.css';
-import { useState } from 'react';
-const CheckoutForm = ({ priceData }) => {
+import { useEffect, useState } from 'react';
+import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
+import useAuth from '../../../../../Hooks/useAuth';
+import Swal from 'sweetalert2';
+import useUser from '../../../../../Hooks/useUser';
+const CheckoutForm = ({ price, payment_time, coins }) => {
+  const { user } = useAuth();
   const stripe = useStripe();
   const elements = useElements();
-  const [clientSecret, setClientSecret] = useState('');
+  const axiosPublice = useAxiosPublice();
+  const [clientSecret, setClientSecret] = useState();
+  const [cartError, setCartError] = useState('');
+  const [processing, setProcessing] = useState(false);
+  const [transactionId, setTransactionId] = useState();
+  const { data, refetch } = useUser();
+  useEffect(() => {
+    if (price > 0) {
+      axiosPublice.post('/create-payment-intent', { price }).then(res => {
+        console.log(res?.data?.clientSecret);
+        setClientSecret(res.data.clientSecret);
+      });
+    }
+  }, [price]);
 
   const handleSubmit = async event => {
-    // Block native form submission.
     event.preventDefault();
-
+    setProcessing(true);
     if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
       return;
     }
 
-    // Get a reference to a mounted CardElement. Elements knows how
-    // to find your CardElement because there can only ever be one of
     // each type of element.
     const card = elements.getElement(CardElement);
 
@@ -33,8 +46,64 @@ const CheckoutForm = ({ priceData }) => {
 
     if (error) {
       console.log('[error]', error);
+      setProcessing(false);
+      setCartError(error.message);
+      return;
     } else {
+      setCartError('');
       console.log('[PaymentMethod]', paymentMethod);
+    }
+
+    //confram payment
+    const { error: confirmError, paymentIntent } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            email: user?.email,
+            name: user?.displayName,
+          },
+        },
+      });
+
+    if (confirmError) {
+      console.log(confirmError);
+      setCartError(confirmError.message);
+      setProcessing(false);
+      return;
+    } else {
+      if (paymentIntent.status === 'succeeded') {
+        setTransactionId(paymentIntent?.id);
+
+        const payment = {
+          email: user?.email,
+          transactionId: paymentIntent?.id,
+          date: payment_time,
+          coin: coins,
+        };
+        const coin = coins;
+        const coinIfo = { coin };
+        axiosPublice.post('/payments', payment).then(res => {
+          console.log(res.data);
+          if (res.data.insertedId) {
+            axiosPublice
+              .patch(`/increase?email=${user?.email}`, coinIfo)
+              .then(res => {
+                console.log(res.data);
+                if (res.data.matchedCount) {
+                  Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: 'Suscess fully Purchase Coin',
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  refetch();
+                }
+              });
+          }
+        });
+      }
     }
   };
 
@@ -57,23 +126,15 @@ const CheckoutForm = ({ priceData }) => {
             },
           }}
         />
-        <div className="flex justify-between items-center">
-          <button
-            className="btn bg-green-100 text-green-800"
-            type="submit"
-            disabled={!stripe}
-          >
-            Pay ${priceData?.price}
-          </button>
-          <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-
-              <button className="btn bg-red-100 text-orange-700">Cancel</button>
-            </form>
-          </div>
-        </div>
+        <button
+          className="btn bg-green-100 text-green-800"
+          type="submit"
+          disabled={!stripe || !clientSecret || processing}
+        >
+          Pay ${price}
+        </button>
       </form>
+      {cartError && <p className="text-red-500 font-semibold">{cartError} </p>}
     </div>
   );
 };
