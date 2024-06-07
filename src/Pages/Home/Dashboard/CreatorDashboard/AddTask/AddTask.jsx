@@ -3,13 +3,12 @@ import { useForm } from 'react-hook-form';
 import useAuth from '../../../../../Hooks/useAuth';
 import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import Swal from 'sweetalert2';
-import { DateRange } from 'react-date-range';
-import { useState } from 'react';
+import useUser from '../../../../../Hooks/useUser';
 
 const AddTask = () => {
   const { user } = useAuth();
   const axiosPublice = useAxiosPublice();
-
+  const { data, refetch } = useUser();
   const creator_email = user?.email;
   const creator_name = user?.displayName;
   let current_time = new Date();
@@ -82,6 +81,7 @@ const AddTask = () => {
                 showConfirmButton: false,
                 timer: 1500,
               });
+              refetch();
             }
             if (res?.data?.message === 'notAvailable') {
               Swal.fire({
