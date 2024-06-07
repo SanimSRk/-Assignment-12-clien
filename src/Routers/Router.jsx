@@ -18,6 +18,7 @@ import AdminHomex from '../Pages/Home/Dashboard/AdminDashbord/AdminHome/AdminHom
 import ManegeUser from '../Pages/Home/Dashboard/AdminDashbord/ManegeUser/ManegeUser';
 import ManageTasks from '../Pages/Home/Dashboard/AdminDashbord/ManageTasks/ManageTasks';
 import UpdateTasks from '../Pages/Home/Dashboard/WorkerDashboard/TaskList/UpdateTasks';
+import PaymentsHistory from '../Pages/Home/Dashboard/CreatorDashboard/PaymentHostary/PaymentsHistory';
 
 export const router = createBrowserRouter([
   {
@@ -59,10 +60,7 @@ export const router = createBrowserRouter([
         path: 'purchas',
         element: <PurchaseCoin></PurchaseCoin>,
       },
-      {
-        path: 'paymentsHostry',
-        element: <Payments></Payments>,
-      },
+
       //>>>>>>>>>>>>>worker dashboard section>>>>>>>>>>>>>
       {
         path: 'workerHome',
@@ -111,6 +109,10 @@ export const router = createBrowserRouter([
         element: <Payments></Payments>,
         loader: ({ params }) =>
           fetch(`http://localhost:5000/buy-cartId/${params.id}`),
+      },
+      {
+        path: 'paymentHistorys',
+        element: <PaymentsHistory></PaymentsHistory>,
       },
     ],
   },
