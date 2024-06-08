@@ -4,19 +4,56 @@ import { FcViewDetails } from 'react-icons/fc';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
 import useAuth from '../../../../Hooks/useAuth';
 import useAxiosPublice from '../../../../Hooks/AxiosPublic/useAxiosPublice';
+import Swal from 'sweetalert2';
 
 const CreatorHome = () => {
   const { user } = useAuth();
   const axiosPublice = useAxiosPublice();
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['review', user],
     queryFn: async () => {
       const { data } = await axiosPublice.get(`/submit-reviews`);
       return data;
     },
   });
-  const handileclickApprobe = id => {
-    axiosPublice.patch(`/status-approve?worker_email`);
+
+  const handileclickApprobe = (id, email, amount) => {
+    axiosPublice.patch(`/status-approve/${id}`).then(res => {
+      if (res.data.matchedCount) {
+        const amountIfo = { amount: amount };
+        axiosPublice
+          .patch(`/increase-userCoin?worker_email=${email}`, amountIfo)
+          .then(res => {
+            console.log(res.data);
+            if (res.data.matchedCount) {
+              Swal.fire({
+                position: 'top-center',
+                icon: 'success',
+                title: 'users tasks is approve',
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              refetch();
+            }
+          });
+      }
+    });
+  };
+
+  const handileClickReject = id => {
+    axiosPublice.patch(`/reject-userTasks/${id}`).then(res => {
+      console.log(res.data);
+      if (res.data.matchedCount) {
+        Swal.fire({
+          position: 'top-center',
+          icon: 'success',
+          title: 'users tasks is rejected',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        refetch();
+      }
+    });
   };
 
   return (
@@ -185,13 +222,22 @@ const CreatorHome = () => {
                     </dialog>
                   </td>
                   <td>
-                    <button className="bg-green-100  rounded-3xl font-bold btn text-green-600">
+                    <button
+                      onClick={() =>
+                        handileclickApprobe(
+                          item?._id,
+                          item.worker_email,
+                          item?.payable_amount
+                        )
+                      }
+                      className="bg-green-100  rounded-3xl font-bold btn text-green-600"
+                    >
                       Approve
                     </button>
                   </td>
                   <td>
                     <button
-                      // onClick={() => handileClikDelete(item?._id)}
+                      onClick={() => handileClickReject(item?._id)}
                       className=" rounded-3xl font-bold btn bg-red-100 text-red-700"
                     >
                       Reject

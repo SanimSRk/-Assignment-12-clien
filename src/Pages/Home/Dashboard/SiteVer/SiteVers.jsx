@@ -20,7 +20,7 @@ const SiteVers = () => {
     <div className="">
       <>
         {/* Small Screen Navbar */}
-        <div className="bg-gray-100 text-gray-800 flex justify-between lg:hidden ">
+        <div className="bg-gray-100 text-gray-800 flex justify-between lg:hidden">
           <div>
             <div className="block cursor-pointer p-4 font-bold">
               <Link to={'/'}>
@@ -45,19 +45,19 @@ const SiteVers = () => {
 
         {/* Sidebar */}
         <div
-          className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
+          className={`z-10  md:fixed flex flex-col justify-between overflow-x-hidden bg-green-400 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
             isActive && '-translate-x-full'
           }  md:translate-x-0  transition duration-200 ease-in-out`}
         >
           <div>
             <div>
-              <div className="w-full hidden md:flex px-4 py-2 shadow-sm rounded-lg justify-center items-center  mx-auto">
+              <div className="w-full hidden  md:flex px-4 py-2 shadow-sm rounded-lg justify-center items-center  mx-auto">
                 <Link to={'/'}>
                   <div className="flex items-center">
                     <img className="w-12" src="/askstream-logo.png" alt="" />
-                    <a className=" text-2xl gap-0 font-bold ">
-                      <span className="text-green-500 ">T</span>ask
-                      <span className="text-green-400">Stream</span>
+                    <a className=" text-2xl gap-0 font-bold text-white ">
+                      <span className="text-white">T</span>ask
+                      <span className="">Stream</span>
                     </a>
                   </div>
                 </Link>
@@ -74,9 +74,9 @@ const SiteVers = () => {
                   <NavLink
                     to="adminHome"
                     className={({ isActive }) =>
-                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-green-100   hover:text-gray-700 ${
                         isActive
-                          ? 'bg-gray-300  text-gray-700'
+                          ? 'bg-green-100  text-gray-700'
                           : 'text-gray-600'
                       }`
                     }
@@ -88,9 +88,9 @@ const SiteVers = () => {
                   <NavLink
                     to="manageUser"
                     className={({ isActive }) =>
-                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-green-100   hover:text-gray-700 ${
                         isActive
-                          ? 'bg-gray-300  text-gray-700'
+                          ? 'bg-green-100  text-gray-700'
                           : 'text-gray-600'
                       }`
                     }
@@ -102,9 +102,9 @@ const SiteVers = () => {
                   <NavLink
                     to="manegaTasks"
                     className={({ isActive }) =>
-                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-green-100   hover:text-gray-700 ${
                         isActive
-                          ? 'bg-gray-300  text-gray-700'
+                          ? 'bg-green-100  text-gray-700'
                           : 'text-gray-600'
                       }`
                     }
@@ -119,9 +119,9 @@ const SiteVers = () => {
                   <NavLink
                     to="workerHome"
                     className={({ isActive }) =>
-                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-green-100   hover:text-gray-700 ${
                         isActive
-                          ? 'bg-gray-300  text-gray-700'
+                          ? 'bg-green-100  text-gray-700'
                           : 'text-gray-600'
                       }`
                     }
@@ -133,9 +133,9 @@ const SiteVers = () => {
                   <NavLink
                     to="taskList"
                     className={({ isActive }) =>
-                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-green-100  hover:text-gray-700 ${
                         isActive
-                          ? 'bg-gray-300  text-gray-700'
+                          ? 'bg-green-100 text-gray-700'
                           : 'text-gray-600'
                       }`
                     }
@@ -147,9 +147,9 @@ const SiteVers = () => {
                   <NavLink
                     to="my-submission"
                     className={({ isActive }) =>
-                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-green-100   hover:text-gray-700 ${
                         isActive
-                          ? 'bg-gray-300  text-gray-700'
+                          ? 'bg-green-100 text-gray-700'
                           : 'text-gray-600'
                       }`
                     }
@@ -161,9 +161,9 @@ const SiteVers = () => {
                   <NavLink
                     to="withdrawals"
                     className={({ isActive }) =>
-                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-green-100  hover:text-gray-700 ${
                         isActive
-                          ? 'bg-gray-300  text-gray-700'
+                          ? 'bg-green-100  text-gray-700'
                           : 'text-gray-600'
                       }`
                     }
@@ -179,9 +179,9 @@ const SiteVers = () => {
                   <NavLink
                     to="creatorHome"
                     className={({ isActive }) =>
-                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-green-100  hover:text--700 ${
                         isActive
-                          ? 'bg-gray-300  text-gray-700'
+                          ? 'bg-green-100  text-gray-700'
                           : 'text-gray-600'
                       }`
                     }
@@ -195,9 +195,9 @@ const SiteVers = () => {
                   <NavLink
                     to="addTasks"
                     className={({ isActive }) =>
-                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-green-100   hover:text-gray-700 ${
                         isActive
-                          ? 'bg-gray-300  text-gray-700'
+                          ? 'bg-green-100 text-gray-700'
                           : 'text-gray-600'
                       }`
                     }
@@ -210,9 +210,9 @@ const SiteVers = () => {
                   <NavLink
                     to="myTasks"
                     className={({ isActive }) =>
-                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-green-100   hover:text-gray-700 ${
                         isActive
-                          ? 'bg-gray-300  text-gray-700'
+                          ? 'bg-green-100  text-gray-700'
                           : 'text-gray-600'
                       }`
                     }
@@ -225,9 +225,9 @@ const SiteVers = () => {
                   <NavLink
                     to="purchas"
                     className={({ isActive }) =>
-                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-green-100  hover:text-gray-700 ${
                         isActive
-                          ? 'bg-gray-300  text-gray-700'
+                          ? 'bg-green-100  text-gray-700'
                           : 'text-gray-600'
                       }`
                     }
@@ -239,9 +239,9 @@ const SiteVers = () => {
                   <NavLink
                     to="paymentHistorys"
                     className={({ isActive }) =>
-                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                      `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-green-100   hover:text-gray-700 ${
                         isActive
-                          ? 'bg-gray-300  text-gray-700'
+                          ? 'bg-green-100  text-gray-700'
                           : 'text-gray-600'
                       }`
                     }
