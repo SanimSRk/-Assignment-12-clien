@@ -6,11 +6,13 @@ import DasbordUser from '../SiteVer/DasbordUser';
 const Dashboard = () => {
   return (
     <div>
-      <div className="">
+      <div className=" ">
         <SiteVers></SiteVers>
+      </div>
+      <div className="">
         <DasbordUser></DasbordUser>
       </div>
-      <div className="lg:ml-64">
+      <div className=" lg:ml-[270px] ">
         <Outlet></Outlet>
       </div>
       <div className=" lg:ml-64">
