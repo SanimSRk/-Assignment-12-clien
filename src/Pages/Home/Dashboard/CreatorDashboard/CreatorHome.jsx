@@ -5,18 +5,27 @@ import { RiDeleteBin6Fill } from 'react-icons/ri';
 import useAuth from '../../../../Hooks/useAuth';
 import useAxiosPublice from '../../../../Hooks/AxiosPublic/useAxiosPublice';
 import Swal from 'sweetalert2';
+import useUser from '../../../../Hooks/useUser';
+import { MdPendingActions } from 'react-icons/md';
 
 const CreatorHome = () => {
   const { user } = useAuth();
   const axiosPublice = useAxiosPublice();
-  const { data, refetch } = useQuery({
+  const { data } = useUser();
+  const { data: dataCard, refetch } = useQuery({
     queryKey: ['review', user],
     queryFn: async () => {
-      const { data } = await axiosPublice.get(`/submit-reviews`);
+      const { data } = await axiosPublice.get(
+        `/submit-reviews?creator_email=${user.email}`
+      );
       return data;
     },
   });
-
+  const Totalquantity = dataCard?.reduce(
+    (total, quangtity) => total + parseFloat(quangtity.task_quantity),
+    0
+  );
+  console.log(dataCard);
   const handileclickApprobe = (id, email, amount) => {
     axiosPublice.patch(`/status-approve/${id}`).then(res => {
       if (res.data.matchedCount) {
@@ -42,7 +51,6 @@ const CreatorHome = () => {
 
   const handileClickReject = id => {
     axiosPublice.patch(`/reject-userTasks/${id}`).then(res => {
-      console.log(res.data);
       if (res.data.matchedCount) {
         Swal.fire({
           position: 'top-center',
@@ -62,43 +70,19 @@ const CreatorHome = () => {
         <div className="lg:flex md:flex gap-12 justify-between">
           <div className="stat shadow">
             <div className="stat-figure text-primary">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="inline-block w-8 h-8 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                ></path>
-              </svg>
+              <BiSolidCoinStack className="text-3xl"></BiSolidCoinStack>
             </div>
-            <div className="stat-title">Total Likes</div>
-            <div className="stat-value text-primary">25.6K</div>
+            <div className="stat-title">Total Coins</div>
+            <div className="stat-value text-primary">{data?.coin}</div>
             <div className="stat-desc">21% more than last month</div>
           </div>
 
           <div className="stat shadow">
             <div className="stat-figure text-secondary">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="inline-block w-8 h-8 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                ></path>
-              </svg>
+              <MdPendingActions className="text-3xl" />
             </div>
-            <div className="stat-title">Page Views</div>
-            <div className="stat-value text-secondary">2.6M</div>
+            <div className="stat-title">Pending Tasks</div>
+            <div className="stat-value text-secondary">{Totalquantity}</div>
             <div className="stat-desc">21% more than last month</div>
           </div>
 
@@ -141,7 +125,7 @@ const CreatorHome = () => {
                 <th></th>
               </tr>
             </thead>
-            {data?.map((item, index) => (
+            {dataCard?.map((item, index) => (
               <tbody key={item._id}>
                 {/* row 1 */}
                 <tr>
