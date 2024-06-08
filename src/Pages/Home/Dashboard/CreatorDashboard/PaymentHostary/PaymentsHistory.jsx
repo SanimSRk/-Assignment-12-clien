@@ -27,10 +27,12 @@ const PaymentsHistory = () => {
             <thead className="font-semibold  uppercase bg-green-500 text-white">
               <tr>
                 <th></th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Date</th>
                 <th>TransactionId</th>
                 <th>Coins</th>
+                <th>Price</th>
               </tr>
             </thead>
             {data?.map((itm, index) => (
@@ -40,6 +42,7 @@ const PaymentsHistory = () => {
                     <th>
                       <label>{index + 1}</label>
                     </th>
+                    <td>{itm?.name}</td>
                     <td>{itm?.email}</td>
                     <td>{itm?.date}</td>
                     <td>{itm?.transactionId}</td>
@@ -49,6 +52,7 @@ const PaymentsHistory = () => {
                         <FaCoins className="text-xl text-orange-500"></FaCoins>{' '}
                       </div>
                     </td>
+                    <td className="font-semibold"> ${itm?.price} </td>
                   </tr>
                 </tbody>
               </>

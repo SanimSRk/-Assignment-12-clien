@@ -12,7 +12,6 @@ const MySubmissions = () => {
       const { data } = await axiosPublice.get(
         `/my-submission?worker_email=${user?.email}`
       );
-      console.log(data);
 
       return data;
     },

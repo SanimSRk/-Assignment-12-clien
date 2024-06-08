@@ -5,6 +5,7 @@ import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import useAuth from '../../../../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import useUser from '../../../../../Hooks/useUser';
+import { useNavigate } from 'react-router-dom';
 const CheckoutForm = ({ price, payment_time, coins }) => {
   const { user } = useAuth();
   const stripe = useStripe();
@@ -15,6 +16,7 @@ const CheckoutForm = ({ price, payment_time, coins }) => {
   const [processing, setProcessing] = useState(false);
   const [transactionId, setTransactionId] = useState();
   const { data, refetch } = useUser();
+  const navigates = useNavigate();
   useEffect(() => {
     if (price > 0) {
       axiosPublice.post('/create-payment-intent', { price }).then(res => {
@@ -80,6 +82,8 @@ const CheckoutForm = ({ price, payment_time, coins }) => {
           transactionId: paymentIntent?.id,
           date: payment_time,
           coin: coins,
+          price: price,
+          name: user?.displayName,
         };
         const coin = coins;
         const coinIfo = { coin };
@@ -98,6 +102,7 @@ const CheckoutForm = ({ price, payment_time, coins }) => {
                     showConfirmButton: false,
                     timer: 1500,
                   });
+                  navigates('/dashboard/paymentHistorys');
                   refetch();
                 }
               });
