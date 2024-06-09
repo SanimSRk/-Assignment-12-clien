@@ -18,7 +18,6 @@ const MySubmissions = () => {
   });
   return (
     <div>
-      <h2>this is My Submissions</h2>
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}
@@ -63,7 +62,20 @@ const MySubmissions = () => {
                   <BiSolidCoinStack className="text-xl text-orange-400" />
                 </td>
                 <td>{item?.current_time}</td>
-                <td> pending</td>
+                <td>
+                  <p
+                    className={
+                      (item.status == 'approve' &&
+                        'bg-[#dbf6fa] text-[#00796b] btn rounded-full') ||
+                      (item.status == 'pending' &&
+                        'bg-[#fff9c4] text-[#ff8c00] btn rounded-full') ||
+                      (item.status == 'reject' &&
+                        'bg-[#ffcccc] text-[#8b0000] btn rounded-full')
+                    }
+                  >
+                    {item?.status}
+                  </p>{' '}
+                </td>
               </tr>
             </tbody>
           ))}

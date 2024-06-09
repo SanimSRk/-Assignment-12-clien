@@ -25,7 +25,7 @@ const CreatorHome = () => {
     (total, quangtity) => total + parseFloat(quangtity.task_quantity),
     0
   );
-  console.log(dataCard);
+
   const handileclickApprobe = (id, email, amount) => {
     axiosPublice.patch(`/status-approve/${id}`).then(res => {
       if (res.data.matchedCount) {

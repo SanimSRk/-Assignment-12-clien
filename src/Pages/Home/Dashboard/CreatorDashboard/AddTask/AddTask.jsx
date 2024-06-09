@@ -60,8 +60,8 @@ const AddTask = () => {
         const tasks = {
           task_title,
           task_detail,
-          task_quantity,
-          payable_amount,
+          task_quantity: parseFloat(task_quantity),
+          payable_amount: parseFloat(payable_amount),
           completion_date,
           submission_info,
           task_image,

@@ -1,26 +1,30 @@
+import { useQuery } from '@tanstack/react-query';
+import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
+import { BiUser } from 'react-icons/bi';
+import { FaUserShield } from 'react-icons/fa';
+
 const AdminHomex = () => {
+  const axiosPublice = useAxiosPublice();
+  const { data } = useQuery({
+    queryKey: ['status-admin'],
+    queryFn: async () => {
+      const { data } = await axiosPublice.get('/admin-status');
+      return data;
+    },
+  });
+  console.log(data);
   return (
     <div className="mt-12">
       <div>
         <div className="lg:flex md:flex gap-12 justify-between">
           <div className="stat shadow">
             <div className="stat-figure text-primary">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="inline-block w-8 h-8 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                ></path>
-              </svg>
+              <BiUser className="text-3xl"></BiUser>
             </div>
-            <div className="stat-title">Total Likes</div>
-            <div className="stat-value text-primary">25.6K</div>
+            <div className="stat-title">Total Users</div>
+            <div className="stat-value text-primary my-4">
+              {data?.tottalUers}
+            </div>
             <div className="stat-desc">21% more than last month</div>
           </div>
 

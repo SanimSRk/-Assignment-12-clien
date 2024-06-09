@@ -4,23 +4,35 @@ import useAuth from '../../../../../Hooks/useAuth';
 import { BiSolidCoinStack } from 'react-icons/bi';
 import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import Swal from 'sweetalert2';
+import useUser from '../../../../../Hooks/useUser';
 const TasksDeatils = () => {
   const datas = useLoaderData();
   const { user } = useAuth();
+  const { data, refetch } = useUser();
   const axiosPublice = useAxiosPublice();
   const worker_name = user?.displayName;
   const worker_email = user?.email;
+
+  let current_time = new Date();
+  let dd = current_time.getDate();
+  let mm = current_time.getMonth() + 1;
+  let yyyy = current_time.getFullYear();
+  if (dd < 10) {
+    dd = '0' + dd;
+  }
+  if (mm < 10) {
+    mm = '0' + mm;
+  }
+  current_time = dd + '/' + mm + '/' + yyyy;
   const {
     task_title,
     task_detail,
-    task_quantity,
     payable_amount,
     completion_date,
     submission_info,
     task_image,
     creator_email,
     creator_name,
-    current_time,
     _id,
   } = datas;
   const {
@@ -39,7 +51,6 @@ const TasksDeatils = () => {
       task_id,
       task_title,
       task_detail,
-      task_quantity,
       payable_amount,
       completion_date,
       submission_info,
@@ -54,14 +65,17 @@ const TasksDeatils = () => {
     };
 
     axiosPublice.post('/tasks-submit', submitInfo).then(res => {
-      console.log(res.data);
       if (res.data.insertedId) {
-        Swal.fire({
-          position: 'top-center',
-          icon: 'success',
-          title: 'Suscess fully tasks submit',
-          showConfirmButton: false,
-          timer: 1500,
+        axiosPublice.patch(`/drcress-quantity/${_id}`).then(res => {
+          console.log(res.data);
+          Swal.fire({
+            position: 'top-center',
+            icon: 'success',
+            title: 'Suscess fully tasks submit',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          refetch();
         });
       }
     });
@@ -91,8 +105,6 @@ const TasksDeatils = () => {
                 </p>
                 <div className="flex justify-between">
                   <h2 className="my-4">Completion date : {completion_date}</h2>
-
-                  <p className="my-3">Task quantity : {task_quantity} person</p>
                 </div>
                 <div className="flex justify-between">
                   <p className="flex ">
