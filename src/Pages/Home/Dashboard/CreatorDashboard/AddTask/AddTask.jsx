@@ -103,7 +103,7 @@ const AddTask = () => {
     <div>
       <div className="w-3/4 mx-auto my-[100px] shadow-lg py-[72px] px-[80px]">
         <h2 className="text-3xl font-bold text-center ">
-          <span className="text-green-400">Add</span> Your Product
+          <span className="text-green-400">Add</span> Your Tasks
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex gap-4 mt-7">
