@@ -6,7 +6,7 @@ import useAuth from '../../../../Hooks/useAuth';
 import useAxiosPublice from '../../../../Hooks/AxiosPublic/useAxiosPublice';
 import Swal from 'sweetalert2';
 import useUser from '../../../../Hooks/useUser';
-import { MdPendingActions } from 'react-icons/md';
+import { MdPaid, MdPendingActions } from 'react-icons/md';
 
 const CreatorHome = () => {
   const { user } = useAuth();
@@ -21,11 +21,18 @@ const CreatorHome = () => {
       return data;
     },
   });
-  const Totalquantity = dataCard?.reduce(
-    (total, quangtity) => total + parseFloat(quangtity.task_quantity),
-    0
-  );
 
+  const { data: payments } = useQuery({
+    queryKey: [user, 'worker-Payments'],
+    queryFn: async () => {
+      const { data } = await axiosPublice.get(
+        `approve-tasksAll?email=${user.email}`
+      );
+      return data;
+    },
+  });
+
+  console.log(payments);
   const handileclickApprobe = (id, email, amount) => {
     axiosPublice.patch(`/status-approve/${id}`).then(res => {
       if (res.data.matchedCount) {
@@ -82,21 +89,22 @@ const CreatorHome = () => {
               <MdPendingActions className="text-3xl" />
             </div>
             <div className="stat-title">Pending Tasks</div>
-            <div className="stat-value text-secondary">{Totalquantity}</div>
+            <div className="stat-value text-secondary">
+              {dataCard?.length || 0}
+            </div>
             <div className="stat-desc">21% more than last month</div>
           </div>
 
           <div className="stat shadow">
-            <div className="stat-figure text-secondary">
-              <div className="avatar online">
-                <div className="w-16 rounded-full">
-                  <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-                </div>
-              </div>
+            <div className="stat-figure text-orange-600">
+              <MdPaid className="text-4xl" />
             </div>
-            <div className="stat-value">86%</div>
-            <div className="stat-title">Tasks done</div>
-            <div className="stat-desc text-secondary">31 tasks remaining</div>
+            <div className="stat-title">Total payment paid by user</div>
+            <div className="stat-value">{payments?.result}</div>
+
+            <div className="stat-desc text-secondary">
+              remaining payment paid by user
+            </div>
           </div>
         </div>
       </div>

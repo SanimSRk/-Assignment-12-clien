@@ -68,14 +68,16 @@ const TasksDeatils = () => {
       if (res.data.insertedId) {
         axiosPublice.patch(`/drcress-quantity/${_id}`).then(res => {
           console.log(res.data);
-          Swal.fire({
-            position: 'top-center',
-            icon: 'success',
-            title: 'Suscess fully tasks submit',
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          refetch();
+          if (res.data.modifiedCount) {
+            Swal.fire({
+              position: 'top-center',
+              icon: 'success',
+              title: 'Suscess fully tasks submit',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            refetch();
+          }
         });
       }
     });

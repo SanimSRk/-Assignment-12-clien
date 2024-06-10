@@ -32,7 +32,7 @@ const UpdateTasks = () => {
   };
   return (
     <div>
-      <div className="w-3/4 border-2 border-green-500 mx-auto my-[100px] shadow-lg py-[72px] px-[80px]">
+      <div className=" lg:w-3/4 md:w-3/4 border-2 border-green-500 mx-auto my-[100px] shadow-lg lg:py-[72px] lg:px-[80px] py-12 px-8">
         <h2 className="text-3xl font-bold text-center ">
           <span className="text-green-400">Up</span>date Tasks
         </h2>

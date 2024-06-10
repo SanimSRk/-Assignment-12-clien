@@ -12,12 +12,9 @@ const AddTask = () => {
   const creator_email = user?.email;
   const creator_name = user?.displayName;
   let current_time = new Date();
-
   let dd = current_time.getDate();
   let mm = current_time.getMonth() + 1;
-
   let yyyy = current_time.getFullYear();
-
   if (dd < 10) {
     dd = '0' + dd;
   }
@@ -101,7 +98,7 @@ const AddTask = () => {
   };
   return (
     <div>
-      <div className="w-3/4 mx-auto my-[100px] shadow-lg py-[72px] px-[80px]">
+      <div className=" lg:w-3/4 md:w-3/4 mx-auto my-[100px] shadow-lg lg:py-[72px] py-12 px-8 lg:px-[80px]">
         <h2 className="text-3xl font-bold text-center ">
           <span className="text-green-400">Add</span> Your Tasks
         </h2>
