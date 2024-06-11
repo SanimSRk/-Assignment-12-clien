@@ -11,15 +11,15 @@ const TopSixUsers = () => {
       return data;
     },
   });
-  console.log(data);
+
   return (
     <div className="my-[110px]">
       <h2 className="text-center text-3xl font-bold text-green-400">
         Top Earners Users
       </h2>
       <div className="grid lg:grid-cols-3 mt-8 gap-6 md:grid-cols-2 grid-cols-1">
-        {data?.map(items => (
-          <TopCarts key={items._id} items={items}></TopCarts>
+        {data?.map((items, index) => (
+          <TopCarts key={items._id} items={items} index={index}></TopCarts>
         ))}
       </div>
     </div>
