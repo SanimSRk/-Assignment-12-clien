@@ -5,6 +5,7 @@ import { BiSolidCoinStack } from 'react-icons/bi';
 import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import Swal from 'sweetalert2';
 import useUser from '../../../../../Hooks/useUser';
+import Countdown from 'react-countdown';
 const TasksDeatils = () => {
   const datas = useLoaderData();
   const { user } = useAuth();
@@ -82,6 +83,20 @@ const TasksDeatils = () => {
       }
     });
   };
+  const Completionist = () => <span>You are good to go!</span>;
+  const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    if (completed) {
+      // Render a completed state
+      return <Completionist />;
+    } else {
+      // Render a countdown
+      return (
+        <span className="text-xl font-bold">
+          {days}:{hours}:{minutes}:{seconds}
+        </span>
+      );
+    }
+  };
 
   return (
     <div className=" bg-green-50 py-8">
@@ -105,8 +120,10 @@ const TasksDeatils = () => {
                   submission info :{' '}
                   <span className="font-semibold">{submission_info}</span>
                 </p>
-                <div className="flex justify-between">
+                <div className="flex justify-between items-center">
                   <h2 className="my-4">Completion date : {completion_date}</h2>
+
+                  <Countdown date={completion_date} renderer={renderer} />
                 </div>
                 <div className="flex justify-between">
                   <p className="flex ">

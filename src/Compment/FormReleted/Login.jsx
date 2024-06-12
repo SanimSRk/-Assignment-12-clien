@@ -4,12 +4,15 @@ import useAuth from '../../Hooks/useAuth';
 import useAxiosPublice from '../../Hooks/AxiosPublic/useAxiosPublice';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const Login = () => {
   const { handileClickGoogleSing, handileClickLoginUser } = useAuth();
+
   const axiosPublice = useAxiosPublice();
   const location = useLocation();
   const navigate = useNavigate();
+  const [error, setError] = useState('');
   const {
     register,
     handleSubmit,
@@ -34,6 +37,7 @@ const Login = () => {
       })
       .catch(error => {
         console.log(error);
+        setError(' Your email and password invalid. Please try again');
       });
   };
 
@@ -106,11 +110,12 @@ const Login = () => {
                   </a>
                 </label>
               </div>
-
+              <p className="text-center text-red-500">{error}</p>
               <div className="form-control mt-6">
                 <button className="btn bg-green-400 text-white">Login</button>
               </div>
             </form>
+
             <div className="flex flex-col w-full mb-6 border-opacity-50 px-8">
               <div className="divider">OR</div>
               <button

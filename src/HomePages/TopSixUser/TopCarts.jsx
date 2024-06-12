@@ -15,7 +15,7 @@ const TopCarts = ({ items, index }) => {
   });
 
   return (
-    <div className="rounded-xl shadow-md border border-green-400 p-6 ">
+    <div className="rounded-xl shadow-md border  border-green-400 p-6 ">
       <div className="flex  items-center">
         <p className="text-3xl font-bold ">{index + 1}</p>
         <img className="w-8" src="/achievement.png" alt="" />

@@ -53,18 +53,19 @@ const AuthProvider = ({ children }) => {
         const userInfo = { email: currentUser.email };
 
         axiosPublice.post('/jwt', userInfo).then(res => {
+          console.log(res.data.token);
           if (res.data.token) {
             localStorage.setItem('token', res.data.token);
             setLoding(false);
           }
         });
       } else {
-        setLoding(false);
         localStorage.removeItem('token');
+        setLoding(false);
       }
     });
     return () => unsubscribe;
-  }, []);
+  }, [axiosPublice]);
 
   const authInfo = {
     handileClickLoginUser,

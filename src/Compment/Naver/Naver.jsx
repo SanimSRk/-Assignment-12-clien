@@ -1,8 +1,11 @@
 import { Link, NavLink } from 'react-router-dom';
 import useAuth from '../../Hooks/useAuth';
+import useUser from '../../Hooks/useUser';
+import { BiSolidCoinStack } from 'react-icons/bi';
 
 const Naver = () => {
   const { user, hanidleClickLogouts } = useAuth();
+  const { data } = useUser();
   const naviLinks = (
     <>
       <NavLink
@@ -15,19 +18,26 @@ const Naver = () => {
       >
         Home
       </NavLink>
-      <NavLink
-        to={'/'}
-        className={({ isActive }) =>
-          isActive
-            ? 'px-4  py-2  text-green-400 text-xl font-extrabold'
-            : 'font-extrabold px-4  py-2 text-xl'
-        }
-      >
-        Watch Demo
-      </NavLink>
+      {!user && (
+        <NavLink
+          target="_blank"
+          to={'https://www.youtube.com/watch?v=Dn_QYofxH34'}
+          className={({ isActive }) =>
+            isActive
+              ? 'px-4  py-2  text-green-400 text-xl font-extrabold'
+              : 'font-extrabold px-4  py-2 text-xl'
+          }
+        >
+          Watch Demo
+        </NavLink>
+      )}
       {user && (
         <NavLink
-          to={'/dashboard'}
+          to={
+            (data?.role === 'isAdmin' && '/dashboard/adminHome') ||
+            (data?.role === 'worker' && '/dashboard/workerHome') ||
+            (data?.role === 'taskCreator' && '/dashboard/creatorHome')
+          }
           className={({ isActive }) =>
             isActive
               ? 'px-4  py-2  text-green-400 text-xl font-extrabold'
@@ -93,13 +103,17 @@ const Naver = () => {
         <div className="navbar-end gap-4">
           {user ? (
             <>
-              <div className="dropdown dropdown-end z-10">
+              <div className="dropdown dropdown-end z-10 gap-0 flex">
+                <p className="text-orange-400 text-xl mb-5 z-20 items-center flex font-semibold">
+                  {data?.coin}
+                  <BiSolidCoinStack className="" />
+                </p>
                 <div
                   tabIndex={0}
                   role="button"
                   className="btn btn-ghost btn-circle avatar"
                 >
-                  <div className="w-10 rounded-full">
+                  <div className="w-14 rounded-full">
                     <img src={user.photoURL} />
                   </div>
                 </div>

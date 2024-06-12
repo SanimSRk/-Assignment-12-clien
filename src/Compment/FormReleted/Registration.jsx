@@ -7,7 +7,7 @@ import useAxiosPublice from '../../Hooks/AxiosPublic/useAxiosPublice';
 import Swal from 'sweetalert2';
 import { useState } from 'react';
 import useUser from '../../Hooks/useUser';
-
+import Select from 'react-select';
 const Registration = () => {
   const {
     handileClikeCreateUser,
@@ -16,17 +16,24 @@ const Registration = () => {
     handileClickGoogleSing,
   } = useAuth();
   const axiosPublice = useAxiosPublice();
-  const { data, refetch } = useUser();
+  const { data: errorrData, refetch } = useUser();
   const location = useLocation();
   const navigate = useNavigate();
-  const [role, setRole] = useState('');
-  const [coin, setCoin] = useState(null);
-  const handileClickRole = (roles, coins) => {
-    const role = roles;
-    const coin = coins;
-    setRole(role);
-    setCoin(coin);
-  };
+  const [error, setErrors] = useState('');
+  const [errorsss, setErrorsss] = useState('');
+  const [selectedOption, setSelectedOption] = useState('');
+  const options = [
+    { value: 'taskCreator', label: 'taskCreator' },
+    { value: 'worker', label: 'worker' },
+  ];
+
+  const role = selectedOption?.value;
+  let coin = 0;
+  if (selectedOption?.value === 'worker') {
+    coin = 10;
+  } else if (selectedOption?.value === 'taskCreator') {
+    coin = 50;
+  }
   console.log(role, coin);
 
   const {
@@ -42,6 +49,19 @@ const Registration = () => {
     const img = photo[0];
     const formData = new FormData();
     formData.append('image', img);
+
+    if (password.length < 6) {
+      setErrors('Password should be at least 6 characters');
+      return;
+    } else if (!/[A-Z]/.test(password)) {
+      setErrors('Password does not have at least one uppercase letter');
+      return;
+    } else if (!/[a-z]/.test(password)) {
+      setErrors('Password does not have at least one lowercase letter');
+      return;
+    } else {
+      setErrors(null);
+    }
 
     handileClikeCreateUser(email, password)
       .then(res => {
@@ -67,7 +87,6 @@ const Registration = () => {
               console.log(userInfo);
               handileUpdateUser(fullName, image).then(() => {
                 axiosPublice.post('/users', userInfo).then(res => {
-                  console.log(res.data);
                   if (res.data.insertedId) {
                     Swal.fire({
                       position: 'top-center',
@@ -76,8 +95,9 @@ const Registration = () => {
                       showConfirmButton: false,
                       timer: 1500,
                     });
-                    refetch;
+                    refetch();
                     navigate(location.state || '/');
+                    setErrorsss(null);
                   }
                 });
               });
@@ -86,6 +106,7 @@ const Registration = () => {
       })
       .catch(error => {
         console.log(error);
+        setErrorsss(error.message);
       });
   };
 
@@ -117,6 +138,7 @@ const Registration = () => {
         console.log(error);
       });
   };
+
   return (
     <div>
       <div className="hero min-h-screen bg-base-200">
@@ -179,34 +201,27 @@ const Registration = () => {
                     Forgot password?
                   </a>
                 </label>
+                <p className="text-center font-semibold text-red-500">
+                  {error}
+                </p>
               </div>
-              <div className="dropdown  ">
-                <div
-                  tabIndex={0}
-                  role="button"
-                  className="input input-bordered m-1"
-                >
-                  select your role
-                </div>
-                <ul
-                  tabIndex={0}
-                  className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-                >
-                  <li onClick={() => handileClickRole('taskCreator', 50)}>
-                    <a>Task-creator</a>
-                  </li>
-                  <li onClick={() => handileClickRole('worker', 10)}>
-                    <a>Worker</a>
-                  </li>
-                </ul>
-              </div>
+              <label className="label">
+                <span className="label-text">Select Your Role</span>
+              </label>
+              <Select
+                defaultValue={selectedOption}
+                onChange={setSelectedOption}
+                options={options}
+              />
 
               <div className="form-control mt-6">
+                <p className="text-red-500 mb-2 font-semibold">{errorsss}</p>
                 <button className="btn bg-green-400 text-white">
                   Registration
                 </button>
               </div>
             </form>
+
             <div className="flex flex-col w-full mb-6 border-opacity-50 px-8">
               <div className="divider">OR</div>
               <button
