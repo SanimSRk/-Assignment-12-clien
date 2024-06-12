@@ -50,20 +50,24 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       if (currentUser) {
         setUser(currentUser);
-        const userInfo = { email: currentUser.email };
 
-        axiosPublice.post('/jwt', userInfo).then(res => {
-          console.log(res.data.token);
-          if (res.data.token) {
-            localStorage.setItem('token', res.data.token);
+        const userInfo = { email: currentUser?.email };
+
+        axiosPublice.post(`/jwt`, userInfo).then(res => {
+          console.log(res.data);
+
+          if (res?.data?.token) {
+            localStorage.setItem('token', res?.data?.token);
             setLoding(false);
           }
         });
       } else {
-        localStorage.removeItem('token');
         setLoding(false);
+
+        localStorage.removeItem('token');
       }
     });
+
     return () => unsubscribe;
   }, [axiosPublice]);
 

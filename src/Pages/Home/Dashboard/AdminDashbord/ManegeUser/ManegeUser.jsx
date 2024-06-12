@@ -118,7 +118,7 @@ const ManegeUser = () => {
                           >
                             <li
                               onClick={() =>
-                                handileClickRole('admin', itm?._id, 'unlimeted')
+                                handileClickRole('admin', itm?._id, 10000)
                               }
                             >
                               <a>Admin</a>

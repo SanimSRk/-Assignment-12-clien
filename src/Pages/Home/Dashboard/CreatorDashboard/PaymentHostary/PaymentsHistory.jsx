@@ -3,14 +3,15 @@ import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import useAuth from '../../../../../Hooks/useAuth';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
 import { FaCoins } from 'react-icons/fa';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const PaymentsHistory = () => {
-  const axiosPublice = useAxiosPublice();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const { data } = useQuery({
     queryKey: ['payment', user],
     queryFn: async () => {
-      const { data } = await axiosPublice.get(
+      const { data } = await axiosSecure.get(
         `/payment-history?email=${user?.email}`
       );
       return data;

@@ -4,10 +4,11 @@ import useAuth from '../../../../../Hooks/useAuth';
 import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import Swal from 'sweetalert2';
 import useUser from '../../../../../Hooks/useUser';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const AddTask = () => {
   const { user } = useAuth();
-  const axiosPublice = useAxiosPublice();
+  const axiosSecure = useAxiosSecure();
   const { data, refetch } = useUser();
   const creator_email = user?.email;
   const creator_name = user?.displayName;
@@ -68,7 +69,7 @@ const AddTask = () => {
         };
 
         if (res?.data?.data?.display_url) {
-          axiosPublice.post('/alltasks', tasks).then(res => {
+          axiosSecure.post('/alltasks', tasks).then(res => {
             console.log(res.data);
             if (res.data.insertedId) {
               Swal.fire({
@@ -93,8 +94,6 @@ const AddTask = () => {
       .catch(error => {
         console.log(error);
       });
-
-    console.log(data);
   };
   return (
     <div>

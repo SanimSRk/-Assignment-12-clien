@@ -2,10 +2,11 @@ import { useForm } from 'react-hook-form';
 import { useLoaderData } from 'react-router-dom';
 import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const UpdateTasks = () => {
   const loderdata = useLoaderData();
-  const axiosPublice = useAxiosPublice();
+  const axiosSecure = useAxiosSecure();
   const { task_title, task_detail, submission_info, _id } = loderdata;
   const {
     register,
@@ -18,7 +19,7 @@ const UpdateTasks = () => {
     const { task_title, task_detail, submission_info } = data;
     const updateInfo = { task_title, task_detail, submission_info };
 
-    axiosPublice.put(`/tasks-updates/${_id}`, updateInfo).then(res => {
+    axiosSecure.put(`/tasks-updates/${_id}`, updateInfo).then(res => {
       if (res.data.matchedCount) {
         Swal.fire({
           position: 'top-center',

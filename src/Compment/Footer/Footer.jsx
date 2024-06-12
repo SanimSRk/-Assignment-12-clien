@@ -1,7 +1,32 @@
+import { BsGithub, BsInstagram, BsTwitterX } from 'react-icons/bs';
+import { FaFacebook } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+
 const Footer = () => {
   return (
     <div className="mt-12">
       <div className=" bg-base-200">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold mb-8 mt-4">TaskStream</h2>
+          <div className="border-y py-4 flex gap-5 justify-center">
+            <Link>
+              {' '}
+              <FaFacebook className="text-3xl"></FaFacebook>
+            </Link>
+            <Link to={'https://github.com/SanimSRk'}>
+              {' '}
+              <BsGithub className="text-3xl"></BsGithub>
+            </Link>
+
+            <Link>
+              <BsTwitterX className="text-3xl"></BsTwitterX>
+            </Link>
+            <Link>
+              <BsInstagram className="text-3xl"></BsInstagram>
+            </Link>
+          </div>
+        </div>
+
         <footer className="footer p-10  text-base-content">
           <aside>
             <img className="w-16" src="/askstream-logo.png" alt="" />

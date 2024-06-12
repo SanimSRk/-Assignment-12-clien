@@ -6,15 +6,16 @@ import { MdUpdate } from 'react-icons/md';
 import { FaCoins } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const Mytask = () => {
-  const { user } = useAuth();
-  const axiosPublice = useAxiosPublice();
-
+  const { user, loding } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const { data, refetch } = useQuery({
-    queryKey: ['my-task', user],
+    queryKey: [user?.email, 'my-task'],
+    enabled: !loding && !!user?.email,
     queryFn: async () => {
-      const { data } = await axiosPublice.get(
+      const { data } = await axiosSecure.get(
         `/my-tasks?creator_email=${user?.email}`
       );
 
@@ -33,7 +34,7 @@ const Mytask = () => {
       confirmButtonText: 'Yes, delete it!',
     }).then(result => {
       if (result.isConfirmed) {
-        axiosPublice.delete(`/tasks-delete/${id}`).then(res => {
+        axiosSecure.delete(`/tasks-delete/${id}`).then(res => {
           if (res.data.deletedCount) {
             refetch();
             Swal.fire({

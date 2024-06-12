@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { CiCoinInsert } from 'react-icons/ci';
-import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import { Link } from 'react-router-dom';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const PurchaseCoin = () => {
   const [datas, setData] = useState([]);
-  const axiosPublice = useAxiosPublice();
+  const axiosSecure = useAxiosSecure();
   useEffect(() => {
-    axiosPublice.get('/buyCart').then(res => {
+    axiosSecure.get('/buyCart').then(res => {
       setData(res.data);
     });
   }, []);

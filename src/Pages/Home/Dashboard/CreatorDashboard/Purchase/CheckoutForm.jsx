@@ -6,11 +6,12 @@ import useAuth from '../../../../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import useUser from '../../../../../Hooks/useUser';
 import { useNavigate } from 'react-router-dom';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 const CheckoutForm = ({ price, payment_time, coins }) => {
   const { user } = useAuth();
   const stripe = useStripe();
   const elements = useElements();
-  const axiosPublice = useAxiosPublice();
+  const axiosSecure = useAxiosSecure();
   const [clientSecret, setClientSecret] = useState();
   const [cartError, setCartError] = useState('');
   const [processing, setProcessing] = useState(false);
@@ -19,7 +20,7 @@ const CheckoutForm = ({ price, payment_time, coins }) => {
   const navigates = useNavigate();
   useEffect(() => {
     if (price > 0) {
-      axiosPublice.post('/create-payment-intent', { price }).then(res => {
+      axiosSecure.post('/create-payment-intent', { price }).then(res => {
         console.log(res?.data?.clientSecret);
         setClientSecret(res.data.clientSecret);
       });
@@ -87,10 +88,10 @@ const CheckoutForm = ({ price, payment_time, coins }) => {
         };
         const coin = coins;
         const coinIfo = { coin };
-        axiosPublice.post('/payments', payment).then(res => {
+        axiosSecure.post('/payments', payment).then(res => {
           console.log(res.data);
           if (res.data.insertedId) {
-            axiosPublice
+            axiosSecure
               .patch(`/increase?email=${user?.email}`, coinIfo)
               .then(res => {
                 console.log(res.data);

@@ -7,15 +7,17 @@ import useAxiosPublice from '../../../../Hooks/AxiosPublic/useAxiosPublice';
 import Swal from 'sweetalert2';
 import useUser from '../../../../Hooks/useUser';
 import { MdPaid, MdPendingActions } from 'react-icons/md';
+import useAxiosSecure from '../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const CreatorHome = () => {
-  const { user } = useAuth();
-  const axiosPublice = useAxiosPublice();
+  const { user, loding } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const { data } = useUser();
   const { data: dataCard, refetch } = useQuery({
     queryKey: ['review', user],
+    enabled: !loding && !!user?.email,
     queryFn: async () => {
-      const { data } = await axiosPublice.get(
+      const { data } = await axiosSecure.get(
         `/submit-reviews?creator_email=${user.email}`
       );
       return data;
@@ -24,8 +26,9 @@ const CreatorHome = () => {
 
   const { data: payments } = useQuery({
     queryKey: [user, 'worker-Payments'],
+    enabled: !loding && !!user?.email,
     queryFn: async () => {
-      const { data } = await axiosPublice.get(
+      const { data } = await axiosSecure.get(
         `approve-tasksAll?email=${user.email}`
       );
       return data;
@@ -34,10 +37,10 @@ const CreatorHome = () => {
 
   console.log(payments);
   const handileclickApprobe = (id, email, amount) => {
-    axiosPublice.patch(`/status-approve/${id}`).then(res => {
+    axiosSecure.patch(`/status-approve/${id}`).then(res => {
       if (res.data.matchedCount) {
         const amountIfo = { amount: amount };
-        axiosPublice
+        axiosSecure
           .patch(`/increase-userCoin?worker_email=${email}`, amountIfo)
           .then(res => {
             console.log(res.data);
@@ -57,7 +60,7 @@ const CreatorHome = () => {
   };
 
   const handileClickReject = id => {
-    axiosPublice.patch(`/reject-userTasks/${id}`).then(res => {
+    axiosSecure.patch(`/reject-userTasks/${id}`).then(res => {
       if (res.data.matchedCount) {
         Swal.fire({
           position: 'top-center',
