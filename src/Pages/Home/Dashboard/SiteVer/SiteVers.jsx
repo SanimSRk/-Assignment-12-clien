@@ -8,13 +8,25 @@ import { MdAddTask, MdAddToPhotos, MdPayment, MdTaskAlt } from 'react-icons/md';
 import { Link, NavLink } from 'react-router-dom';
 import useUser from '../../../../Hooks/useUser';
 import { PiUsersThreeFill } from 'react-icons/pi';
+import useAuth from '../../../../Hooks/useAuth';
 
 const SiteVers = () => {
   const [isActive, setActive] = useState(false);
+  const { hanidleClickLogouts } = useAuth();
   const { data } = useUser();
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive);
+  };
+
+  const logoutHandileClick = () => {
+    hanidleClickLogouts()
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
   return (
     <div className="">
@@ -258,20 +270,9 @@ const SiteVers = () => {
             <hr />
 
             {/* Profile Menu */}
-            <NavLink
-              to="/dashboard/profile"
-              className={({ isActive }) =>
-                `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
-                  isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
-                }`
-              }
-            >
-              <FcSettings className="w-5 h-5" />
 
-              <span className="mx-4 font-medium">Profile</span>
-            </NavLink>
             <button
-              // onClick={logOut}
+              onClick={logoutHandileClick}
               className="flex w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform"
             >
               <GrLogout className="w-5 h-5" />

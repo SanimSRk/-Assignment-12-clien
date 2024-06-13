@@ -20,11 +20,14 @@ import ManageTasks from '../Pages/Home/Dashboard/AdminDashbord/ManageTasks/Manag
 import UpdateTasks from '../Pages/Home/Dashboard/WorkerDashboard/TaskList/UpdateTasks';
 import PaymentsHistory from '../Pages/Home/Dashboard/CreatorDashboard/PaymentHostary/PaymentsHistory';
 import PrivtedRouted from '../Compment/PrivtedRouted/PrivtedRouted';
+import NotFounds from '../Compment/NotFoundPages/NotFounds';
 
 export const router = createBrowserRouter([
   {
     path: '/',
+
     element: <MainLayout></MainLayout>,
+    errorElement: <NotFounds></NotFounds>,
     children: [
       {
         path: '/',
@@ -42,6 +45,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
+    errorElement: <NotFounds></NotFounds>,
     element: (
       <PrivtedRouted>
         <Dashboard></Dashboard>
