@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
+
 import TasksCard from './TasksCard';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const TaskList = () => {
-  const axiosPublice = useAxiosPublice();
+  const axiosSecure = useAxiosSecure();
   const { data } = useQuery({
     queryKey: ['show-tasks'],
     queryFn: async () => {
-      const { data } = await axiosPublice.get('/tasks-list');
+      const { data } = await axiosSecure.get('/tasks-list');
 
       return data;
     },

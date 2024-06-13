@@ -2,20 +2,27 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import useAuth from '../../../../../Hooks/useAuth';
 import { BiSolidCoinStack } from 'react-icons/bi';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const MySubmissions = () => {
-  const axiosPublice = useAxiosPublice();
-  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const { user, loding } = useAuth();
   const { data } = useQuery({
-    queryKey: ['submissions', user],
+    queryKey: ['submissions', user?.email],
+    enabled: !loding && !!user?.email,
     queryFn: async () => {
-      const { data } = await axiosPublice.get(
+      const { data } = await axiosSecure.get(
         `/my-submission?worker_email=${user?.email}`
       );
 
       return data;
     },
   });
+
+  const count = data?.length;
+  const totalPages = 7;
+  const numberOfPages = Math.ceil(count / totalPages);
+  const pages = [...Array(numberOfPages).keys()];
   return (
     <div>
       <div className="overflow-x-auto">

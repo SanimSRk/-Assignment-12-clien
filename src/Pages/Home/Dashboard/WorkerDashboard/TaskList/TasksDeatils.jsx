@@ -6,11 +6,12 @@ import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import Swal from 'sweetalert2';
 import useUser from '../../../../../Hooks/useUser';
 import Countdown from 'react-countdown';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 const TasksDeatils = () => {
   const datas = useLoaderData();
   const { user } = useAuth();
   const { data, refetch } = useUser();
-  const axiosPublice = useAxiosPublice();
+  const axiosSecure = useAxiosSecure();
   const worker_name = user?.displayName;
   const worker_email = user?.email;
 
@@ -65,9 +66,9 @@ const TasksDeatils = () => {
       status,
     };
 
-    axiosPublice.post('/tasks-submit', submitInfo).then(res => {
+    axiosSecure.post('/tasks-submit', submitInfo).then(res => {
       if (res.data.insertedId) {
-        axiosPublice.patch(`/drcress-quantity/${_id}`).then(res => {
+        axiosSecure.patch(`/drcress-quantity/${_id}`).then(res => {
           console.log(res.data);
           if (res.data.modifiedCount) {
             Swal.fire({

@@ -4,13 +4,15 @@ import { BiSolidCoinStack } from 'react-icons/bi';
 import { FcDeleteDatabase, FcViewDetails } from 'react-icons/fc';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const ManageTasks = () => {
   const axiosPublice = useAxiosPublice();
+  const axiosSecure = useAxiosSecure();
   const { data, refetch } = useQuery({
     queryKey: ['manageTask'],
     queryFn: async () => {
-      const { data } = await axiosPublice.get('/tasks-manages');
+      const { data } = await axiosSecure.get('/tasks-manages');
       return data;
     },
   });
@@ -26,7 +28,7 @@ const ManageTasks = () => {
       confirmButtonText: 'Yes, delete it!',
     }).then(result => {
       if (result.isConfirmed) {
-        axiosPublice.delete(`/task-deletes/${id}`).then(res => {
+        axiosSecure.delete(`/task-deletes/${id}`).then(res => {
           if (res.data.deletedCount) {
             refetch();
             Swal.fire({

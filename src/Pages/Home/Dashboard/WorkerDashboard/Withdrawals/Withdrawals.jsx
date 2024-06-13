@@ -5,12 +5,14 @@ import { toast } from 'react-toastify';
 import useAuth from '../../../../../Hooks/useAuth';
 import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const Withdrawals = () => {
   const [withdraw_coin, setWithdraw_coin] = useState(0);
   const { data: amounts, refetch } = useUser();
   const { user } = useAuth();
   const axiosPublice = useAxiosPublice();
+  const axiosSecure = useAxiosSecure();
   const worker_email = user?.email;
   const worker_name = user?.displayName;
   let withdraw_time = new Date();
@@ -63,9 +65,9 @@ const Withdrawals = () => {
       );
     } else {
       console.log(withdrawInfo);
-      axiosPublice.post('/withdraw-requests', withdrawInfo).then(res => {
+      axiosSecure.post('/withdraw-requests', withdrawInfo).then(res => {
         if (res.data.insertedId) {
-          axiosPublice
+          axiosSecure
             .patch(
               `/withdrawUser-decrease?email=${user?.email}`,
               userWithdrawInfo

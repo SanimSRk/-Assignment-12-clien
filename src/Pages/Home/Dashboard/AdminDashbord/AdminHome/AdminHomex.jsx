@@ -3,13 +3,15 @@ import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import { BiSolidCoinStack, BiUser } from 'react-icons/bi';
 import { TbCoinFilled } from 'react-icons/tb';
 import AdminHomeTabile from './AdminHomeTabile';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const AdminHomex = () => {
   const axiosPublice = useAxiosPublice();
+  const axiosSecure = useAxiosSecure();
   const { data } = useQuery({
     queryKey: ['status-admin'],
     queryFn: async () => {
-      const { data } = await axiosPublice.get('/admin-status');
+      const { data } = await axiosSecure.get('/admin-status');
       return data;
     },
   });

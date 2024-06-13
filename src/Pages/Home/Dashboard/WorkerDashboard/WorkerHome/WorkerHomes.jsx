@@ -3,24 +3,28 @@ import useAuth from '../../../../../Hooks/useAuth';
 import useUser from '../../../../../Hooks/useUser';
 import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import { BiSolidCoinStack } from 'react-icons/bi';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const WorkerHomes = () => {
   const { data: userDatas, refetch } = useUser();
-  const axiosPublice = useAxiosPublice();
-  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const { user, loding } = useAuth();
   const { data: workers } = useQuery({
-    queryKey: ['all-submit', user],
+    queryKey: ['all-submit', user?.email],
+    enabled: !loding && !!user?.email,
     queryFn: async () => {
-      const { data } = await axiosPublice.get(
+      const { data } = await axiosSecure.get(
         `/worker-allSubmicon?worker_email=${user?.email}`
       );
       return data;
     },
   });
+
   const { data: totalAmount } = useQuery({
-    queryKey: ['total-amount', user],
+    queryKey: [user?.email, 'total-amount'],
+    enabled: !loding && !!user?.email,
     queryFn: async () => {
-      const { data } = await axiosPublice.get(
+      const { data } = await axiosSecure.get(
         `/workers-amounts?worker_email=${user?.email}`
       );
       return data;

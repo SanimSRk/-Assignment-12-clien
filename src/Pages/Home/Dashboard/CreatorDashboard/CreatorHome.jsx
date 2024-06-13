@@ -1,9 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { BiSolidCoinStack } from 'react-icons/bi';
 import { FcViewDetails } from 'react-icons/fc';
-import { RiDeleteBin6Fill } from 'react-icons/ri';
 import useAuth from '../../../../Hooks/useAuth';
-import useAxiosPublice from '../../../../Hooks/AxiosPublic/useAxiosPublice';
 import Swal from 'sweetalert2';
 import useUser from '../../../../Hooks/useUser';
 import { MdPaid, MdPendingActions } from 'react-icons/md';
@@ -14,22 +12,22 @@ const CreatorHome = () => {
   const axiosSecure = useAxiosSecure();
   const { data } = useUser();
   const { data: dataCard, refetch } = useQuery({
-    queryKey: ['review', user],
+    queryKey: [user?.email, 'review'],
     enabled: !loding && !!user?.email,
     queryFn: async () => {
       const { data } = await axiosSecure.get(
-        `/submit-reviews?creator_email=${user.email}`
+        `/submit-reviews?creator_email=${user?.email}`
       );
       return data;
     },
   });
 
   const { data: payments } = useQuery({
-    queryKey: [user, 'worker-Payments'],
-    enabled: !loding && !!user?.email,
+    queryKey: [user?.email, 'worker-Payments'],
+    enabled: !loding && !!user?.email && !!localStorage.getItem('token'),
     queryFn: async () => {
       const { data } = await axiosSecure.get(
-        `approve-tasksAll?email=${user.email}`
+        `approve-tasksAll?email=${user?.email}`
       );
       return data;
     },

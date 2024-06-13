@@ -4,15 +4,17 @@ import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
 import { BiSolidCoinStack } from 'react-icons/bi';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const ManegeUser = () => {
   const { user } = useAuth();
   const axiosPublice = useAxiosPublice();
+  const axiosSecure = useAxiosSecure();
 
   const { data, refetch } = useQuery({
     queryKey: ['workers-user', user],
     queryFn: async () => {
-      const { data } = await axiosPublice.get(`/worker-users`);
+      const { data } = await axiosSecure.get(`/worker-users`);
       return data;
     },
   });
@@ -24,7 +26,7 @@ const ManegeUser = () => {
       role,
       coin,
     };
-    axiosPublice.patch(`/user-role/${id}`, roleInfo).then(res => {
+    axiosSecure.patch(`/user-role/${id}`, roleInfo).then(res => {
       if (res.data.matchedCount) {
         Swal.fire({
           position: 'top-center',
@@ -50,7 +52,7 @@ const ManegeUser = () => {
       confirmButtonText: 'Yes, delete it!',
     }).then(result => {
       if (result.isConfirmed) {
-        axiosPublice.delete(`/delete-user/${id}`).then(res => {
+        axiosSecure.delete(`/delete-user/${id}`).then(res => {
           if (res.data.deletedCount) {
             refetch();
             Swal.fire({

@@ -2,19 +2,21 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import { BiSolidCoinStack } from 'react-icons/bi';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const AdminHomeTabile = () => {
   const axiosPublice = useAxiosPublice();
+  const axiosSecure = useAxiosSecure();
   const { data, refetch } = useQuery({
     queryKey: ['withdraw'],
     queryFn: async () => {
-      const { data } = await axiosPublice.get('/success-payments');
+      const { data } = await axiosSecure.get('/success-payments');
       return data;
     },
   });
 
   const habndileClickDelete = id => {
-    axiosPublice.delete(`/withdraw-deletes/${id}`).then(res => {
+    axiosSecure.delete(`/withdraw-deletes/${id}`).then(res => {
       console.log(res.data);
       if (res.data.deletedCount) {
         Swal.fire({
