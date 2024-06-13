@@ -34,7 +34,13 @@ const CreatorHome = () => {
   });
 
   console.log(payments);
-  const handileclickApprobe = (id, email, amount) => {
+  const handileclickApprobe = (id, email, amount, fullName, title) => {
+    const approveTasksInfo = {
+      message: `you have earned ${amount} token from ${fullName} for completing ${title}`,
+      toEmail: email,
+      time: new Date(),
+    };
+
     axiosSecure.patch(`/status-approve/${id}`).then(res => {
       if (res.data.matchedCount) {
         const amountIfo = { amount: amount };
@@ -42,6 +48,12 @@ const CreatorHome = () => {
           .patch(`/increase-userCoin?worker_email=${email}`, amountIfo)
           .then(res => {
             console.log(res.data);
+            axiosSecure
+              .post('/creatoReviewTasks', approveTasksInfo)
+              .then(res => {
+                console.log(res.data);
+              });
+
             if (res.data.matchedCount) {
               Swal.fire({
                 position: 'top-center',
@@ -57,9 +69,18 @@ const CreatorHome = () => {
     });
   };
 
-  const handileClickReject = id => {
+  const handileClickReject = (id, email, title, amount) => {
+    const rejectTasksInfo = {
+      message: `We regret to inform you that the task you submitted has been rejected ${title} and reject amount ${amount} token`,
+      toEmail: email,
+      time: new Date(),
+    };
+
     axiosSecure.patch(`/reject-userTasks/${id}`).then(res => {
       if (res.data.matchedCount) {
+        axiosSecure.post('/rejectTasks-reject', rejectTasksInfo).then(res => {
+          console.log(res.data);
+        });
         Swal.fire({
           position: 'top-center',
           icon: 'success',
@@ -220,7 +241,9 @@ const CreatorHome = () => {
                         handileclickApprobe(
                           item?._id,
                           item.worker_email,
-                          item?.payable_amount
+                          item?.payable_amount,
+                          item?.creator_name,
+                          item?.task_title
                         )
                       }
                       className="bg-green-100  rounded-3xl font-bold btn text-green-600"
@@ -230,7 +253,14 @@ const CreatorHome = () => {
                   </td>
                   <td>
                     <button
-                      onClick={() => handileClickReject(item?._id)}
+                      onClick={() =>
+                        handileClickReject(
+                          item?._id,
+                          item.worker_email,
+                          item?.task_title,
+                          item?.payable_amount
+                        )
+                      }
                       className=" rounded-3xl font-bold btn bg-red-100 text-red-700"
                     >
                       Reject

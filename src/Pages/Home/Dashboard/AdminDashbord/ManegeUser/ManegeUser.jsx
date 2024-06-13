@@ -19,15 +19,23 @@ const ManegeUser = () => {
     },
   });
 
-  const handileClickRole = (roles, id, coins) => {
+  const handileClickRole = (roles, id, coins, email) => {
     const role = roles;
     const coin = coins;
     const roleInfo = {
       role,
       coin,
     };
+    const userRoleInfo = {
+      message: `We are pleased to inform you that you have been promoted to the role of ${role}`,
+      toEmail: email,
+      time: new Date(),
+    };
     axiosSecure.patch(`/user-role/${id}`, roleInfo).then(res => {
       if (res.data.matchedCount) {
+        axiosSecure.post('/userRole-updates', userRoleInfo).then(res => {
+          console.log(res.data);
+        });
         Swal.fire({
           position: 'top-center',
           icon: 'success',
@@ -120,7 +128,12 @@ const ManegeUser = () => {
                           >
                             <li
                               onClick={() =>
-                                handileClickRole('admin', itm?._id, 10000)
+                                handileClickRole(
+                                  'admin',
+                                  itm?._id,
+                                  10000,
+                                  itm?.worker_email
+                                )
                               }
                             >
                               <a>Admin</a>

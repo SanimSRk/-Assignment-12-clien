@@ -75,23 +75,7 @@ const MySubmissions = () => {
               {/* row 1 */}
               <tr>
                 <th>{index + 1}</th>
-                <td>
-                  {/* <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12">
-                        <img
-                          src="https://img.daisyui.com/tailwind-css-component-profile-2@56w.png"
-                          alt="Avatar Tailwind CSS Component"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">Hart Hagerty</div>
-                      <div className="text-sm opacity-50">United States</div>
-                    </div>
-                  </div> */}
-                  {item?.worker_name}
-                </td>
+                <td>{item?.worker_name}</td>
                 <td>{item?.task_title}</td>
                 <td>{item?.worker_email}</td>
                 <td className="flex  font-bold items-center ">

@@ -15,10 +15,20 @@ const AdminHomeTabile = () => {
     },
   });
 
-  const habndileClickDelete = id => {
+  const habndileClickDelete = (id, email, payment) => {
+    const withdrawReqInfo = {
+      message: `your withdrawal request has been successfully processed ${payment}$`,
+      toEmail: email,
+      time: new Date(),
+    };
+
     axiosSecure.delete(`/withdraw-deletes/${id}`).then(res => {
       console.log(res.data);
       if (res.data.deletedCount) {
+        axiosSecure.post('/withdrawNotification', withdrawReqInfo).then(res => {
+          console.log(res.data);
+        });
+
         Swal.fire({
           title: 'Success',
           text: 'Payment Success fully done ',
@@ -64,7 +74,13 @@ const AdminHomeTabile = () => {
                 <td>{item?.withdraw_time}</td>
                 <td>
                   <button
-                    onClick={() => habndileClickDelete(item?._id)}
+                    onClick={() =>
+                      habndileClickDelete(
+                        item?._id,
+                        item?.worker_email,
+                        item?.payments
+                      )
+                    }
                     className="bg-green-400 text-[#ffffff] btn rounded-full"
                   >
                     Payment Success

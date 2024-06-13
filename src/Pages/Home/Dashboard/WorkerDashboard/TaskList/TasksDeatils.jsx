@@ -65,12 +65,22 @@ const TasksDeatils = () => {
       submission_details,
       status,
     };
+    const pandingTasksInfo = {
+      message: `You are set to earn ${payable_amount} token from ${creator_name} for completing ${task_title}, but the task is still under review`,
+      toEmail: worker_email,
+      time: new Date(),
+    };
 
     axiosSecure.post('/tasks-submit', submitInfo).then(res => {
       if (res.data.insertedId) {
         axiosSecure.patch(`/drcress-quantity/${_id}`).then(res => {
           console.log(res.data);
           if (res.data.modifiedCount) {
+            axiosSecure
+              .post('/taskSubmited-user', pandingTasksInfo)
+              .then(res => {
+                console.log(res.data);
+              });
             Swal.fire({
               position: 'top-center',
               icon: 'success',

@@ -9,20 +9,29 @@ const Footer = () => {
         <div className="text-center">
           <h2 className="text-3xl font-bold mb-8 mt-4">TaskStream</h2>
           <div className="border-y py-4 flex gap-5 justify-center">
-            <Link>
+            <Link
+              target="_blank"
+              to={'https://web.facebook.com/profile.php?id=100089601605572'}
+            >
               {' '}
               <FaFacebook className="text-3xl"></FaFacebook>
             </Link>
-            <Link to={'https://github.com/SanimSRk'}>
+            <Link target="_blank" to={'https://github.com/SanimSRk'}>
               {' '}
               <BsGithub className="text-3xl"></BsGithub>
             </Link>
 
-            <Link>
-              <BsTwitterX className="text-3xl"></BsTwitterX>
-            </Link>
-            <Link>
+            <Link
+              target="_blank"
+              to={
+                'https://www.instagram.com/sksanim619/?fbclid=IwZXh0bgNhZW0CMTAAAR0_iHh9F9Xyh7ZyeU-me82fQ2joqnwFpDOByAsCDfJi7r_PMVc-J28mQno_aem_AUaesbO92wNTkRCrC0qm8ExIFA7arRBdznhLozuzEba4t4JqFliaH6D8URR9eEzQn3DSt4SgrBuGktfn5Zzd3CO9'
+              }
+            >
               <BsInstagram className="text-3xl"></BsInstagram>
+            </Link>
+            <Link target="_blank" to={'https://twitter.com/Sanim_76'}>
+              {' '}
+              <BsTwitterX className="text-3xl"></BsTwitterX>
             </Link>
           </div>
         </div>
