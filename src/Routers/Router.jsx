@@ -19,6 +19,7 @@ import ManegeUser from '../Pages/Home/Dashboard/AdminDashbord/ManegeUser/ManegeU
 import ManageTasks from '../Pages/Home/Dashboard/AdminDashbord/ManageTasks/ManageTasks';
 import UpdateTasks from '../Pages/Home/Dashboard/WorkerDashboard/TaskList/UpdateTasks';
 import PaymentsHistory from '../Pages/Home/Dashboard/CreatorDashboard/PaymentHostary/PaymentsHistory';
+import PrivtedRouted from '../Compment/PrivtedRouted/PrivtedRouted';
 
 export const router = createBrowserRouter([
   {
@@ -41,78 +42,143 @@ export const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <Dashboard></Dashboard>,
+    element: (
+      <PrivtedRouted>
+        <Dashboard></Dashboard>
+      </PrivtedRouted>
+    ),
     children: [
       // >>>>>>>>>>>>>tasks creator dashboard section>>>>>>>>>>>>>
       {
         path: 'creatorHome',
-        element: <CreatorHome></CreatorHome>,
+        element: (
+          <PrivtedRouted>
+            <CreatorHome></CreatorHome>
+          </PrivtedRouted>
+        ),
       },
       {
         path: 'addTasks',
-        element: <AddTask></AddTask>,
+        element: (
+          <PrivtedRouted>
+            <AddTask></AddTask>
+          </PrivtedRouted>
+        ),
       },
       {
         path: 'myTasks',
-        element: <Mytask></Mytask>,
+        element: (
+          <PrivtedRouted>
+            <Mytask></Mytask>
+          </PrivtedRouted>
+        ),
       },
       {
         path: 'purchas',
-        element: <PurchaseCoin></PurchaseCoin>,
+        element: (
+          <PrivtedRouted>
+            {' '}
+            <PurchaseCoin></PurchaseCoin>
+          </PrivtedRouted>
+        ),
       },
 
       //>>>>>>>>>>>>>worker dashboard section>>>>>>>>>>>>>
       {
         path: 'workerHome',
-        element: <WorkerHomes></WorkerHomes>,
+        element: (
+          <PrivtedRouted>
+            <WorkerHomes></WorkerHomes>
+          </PrivtedRouted>
+        ),
       },
       {
         path: 'taskList',
-        element: <TaskList></TaskList>,
+        element: (
+          <PrivtedRouted>
+            <TaskList></TaskList>
+          </PrivtedRouted>
+        ),
       },
 
       {
         path: 'my-submission',
-        element: <MySubmissions></MySubmissions>,
+        element: (
+          <PrivtedRouted>
+            <MySubmissions></MySubmissions>
+          </PrivtedRouted>
+        ),
       },
       {
         path: 'withdrawals',
-        element: <Withdrawals></Withdrawals>,
+        element: (
+          <PrivtedRouted>
+            <Withdrawals></Withdrawals>
+          </PrivtedRouted>
+        ),
       },
       {
         path: 'tasksDeatils/:id',
-        element: <TasksDeatils></TasksDeatils>,
+        element: (
+          <PrivtedRouted>
+            <TasksDeatils></TasksDeatils>
+          </PrivtedRouted>
+        ),
         loader: ({ params }) =>
           fetch(`http://localhost:5000/tasksDeatils/${params?.id}`),
       },
       //>>>>>>>>>>>>>admin dashboard section>>>>>>>>>>>>>
       {
         path: 'adminHome',
-        element: <AdminHomex></AdminHomex>,
+        element: (
+          <PrivtedRouted>
+            <AdminHomex></AdminHomex>
+          </PrivtedRouted>
+        ),
       },
       {
         path: 'manageUser',
-        element: <ManegeUser></ManegeUser>,
+        element: (
+          <PrivtedRouted>
+            <ManegeUser></ManegeUser>
+          </PrivtedRouted>
+        ),
       },
       {
         path: 'manegaTasks',
-        element: <ManageTasks></ManageTasks>,
+        element: (
+          <PrivtedRouted>
+            <ManageTasks></ManageTasks>
+          </PrivtedRouted>
+        ),
       },
       {
         path: 'update-tasks/:id',
-        element: <UpdateTasks></UpdateTasks>,
+        element: (
+          <PrivtedRouted>
+            <UpdateTasks></UpdateTasks>
+          </PrivtedRouted>
+        ),
         loader: ({ params }) =>
           fetch(`http://localhost:5000/updateTasks/${params.id}`),
       },
       {
         path: 'payments/:id',
-        element: <Payments></Payments>,
+        element: (
+          <PrivtedRouted>
+            <Payments></Payments>
+          </PrivtedRouted>
+        ),
         loader: ({ params }) =>
           fetch(`http://localhost:5000/buy-cartId/${params.id}`),
       },
       {
         path: 'paymentHistorys',
-        element: <PaymentsHistory></PaymentsHistory>,
+        element: (
+          <PrivtedRouted>
+            <PaymentsHistory></PaymentsHistory>
+          </PrivtedRouted>
+        ),
       },
     ],
   },
