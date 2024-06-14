@@ -54,7 +54,7 @@ const DasbordUser = () => {
                 </p>
               </div>
             ))}
-            <p className="py-4">Press ESC key or click outside to close</p>
+            <p className="py-4">user notifaction data</p>
           </div>
           <form method="dialog" className="modal-backdrop">
             <button>close</button>

@@ -82,7 +82,7 @@ const ManegeUser = () => {
             <thead className="font-semibold  uppercase bg-green-400 text-white">
               <tr>
                 <th></th>
-                <th> IMAGE</th>
+                <th>IMAGE</th>
                 <th>Name</th>
                 <th>email</th>
                 <th>Role</th>
@@ -129,7 +129,7 @@ const ManegeUser = () => {
                             <li
                               onClick={() =>
                                 handileClickRole(
-                                  'admin',
+                                  'isAdmin',
                                   itm?._id,
                                   10000,
                                   itm?.worker_email
