@@ -129,7 +129,9 @@ export const router = createBrowserRouter([
           </PrivtedRouted>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/tasksDeatils/${params?.id}`),
+          fetch(
+            `https://assignment-12-server-eight-alpha.vercel.app/tasksDeatils/${params?.id}`
+          ),
       },
       //>>>>>>>>>>>>>admin dashboard section>>>>>>>>>>>>>
       {
@@ -164,7 +166,9 @@ export const router = createBrowserRouter([
           </PrivtedRouted>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/updateTasks/${params.id}`),
+          fetch(
+            `https://assignment-12-server-eight-alpha.vercel.app/updateTasks/${params.id}`
+          ),
       },
       {
         path: 'payments/:id',
@@ -174,7 +178,9 @@ export const router = createBrowserRouter([
           </PrivtedRouted>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/buy-cartId/${params.id}`),
+          fetch(
+            `https://assignment-12-server-eight-alpha.vercel.app/buy-cartId/${params.id}`
+          ),
       },
       {
         path: 'paymentHistorys',

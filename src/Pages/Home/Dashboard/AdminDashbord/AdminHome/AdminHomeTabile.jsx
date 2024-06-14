@@ -1,11 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import useAxiosPublice from '../../../../../Hooks/AxiosPublic/useAxiosPublice';
 import { BiSolidCoinStack } from 'react-icons/bi';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../../../Hooks/AxiosSecure/useAxiosSecure';
 
 const AdminHomeTabile = () => {
-  const axiosPublice = useAxiosPublice();
   const axiosSecure = useAxiosSecure();
   const { data, refetch } = useQuery({
     queryKey: ['withdraw'],

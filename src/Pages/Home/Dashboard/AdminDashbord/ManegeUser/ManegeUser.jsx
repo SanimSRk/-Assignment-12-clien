@@ -39,7 +39,7 @@ const ManegeUser = () => {
         Swal.fire({
           position: 'top-center',
           icon: 'success',
-          title: 'Suscess fully registration done ',
+          title: 'Suscess fully role update done ',
           showConfirmButton: false,
           timer: 1500,
         });
@@ -76,7 +76,7 @@ const ManegeUser = () => {
   return (
     <div>
       <div className="mt-8">
-        <div className="overflow-x-auto ">
+        <div className=" overflow-x-auto ">
           <table className="table">
             {/* head */}
             <thead className="font-semibold  uppercase bg-green-400 text-white">

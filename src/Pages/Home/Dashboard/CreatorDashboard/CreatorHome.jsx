@@ -6,11 +6,29 @@ import Swal from 'sweetalert2';
 import useUser from '../../../../Hooks/useUser';
 import { MdPaid, MdPendingActions } from 'react-icons/md';
 import useAxiosSecure from '../../../../Hooks/AxiosSecure/useAxiosSecure';
+import { useState } from 'react';
+import axios from 'axios';
 
 const CreatorHome = () => {
   const { user, loding } = useAuth();
   const axiosSecure = useAxiosSecure();
   const { data } = useUser();
+  const [deatilsData, setDeatilsData] = useState({});
+
+  const {
+    task_title,
+    task_detail,
+    payable_amount,
+    completion_date,
+    submission_info,
+    task_image,
+    creator_email,
+    creator_name,
+    current_time,
+    worker_email,
+    worker_name,
+    submission_details,
+  } = deatilsData;
   const { data: dataCard, refetch } = useQuery({
     queryKey: [user?.email, 'review'],
     enabled: !loding && !!user?.email,
@@ -69,7 +87,8 @@ const CreatorHome = () => {
     });
   };
 
-  const handileClickReject = (id, email, title, amount) => {
+  const handileClickReject = (id, email, title, amount, taskId) => {
+    console.log(taskId);
     const rejectTasksInfo = {
       message: `We regret to inform you that the task you submitted has been rejected ${title} and reject amount ${amount} token`,
       toEmail: email,
@@ -78,6 +97,10 @@ const CreatorHome = () => {
 
     axiosSecure.patch(`/reject-userTasks/${id}`).then(res => {
       if (res.data.matchedCount) {
+        axiosSecure.patch(`/updateTasks-quntity/${taskId}`).then(res => {
+          console.log(res.data);
+        });
+
         axiosSecure.post('/rejectTasks-reject', rejectTasksInfo).then(res => {
           console.log(res.data);
         });
@@ -90,6 +113,13 @@ const CreatorHome = () => {
         });
         refetch();
       }
+    });
+  };
+
+  const handileClickDeatils = async id => {
+    axiosSecure.get(`/tasksSubmits-modal/${id}`).then(res => {
+      console.log(res.data);
+      setDeatilsData(res?.data);
     });
   };
 
@@ -172,68 +202,14 @@ const CreatorHome = () => {
                   <td>
                     <button
                       onClick={() =>
-                        document.getElementById('my_modal_2').showModal()
+                        handileClickDeatils(
+                          item?._id,
+                          document.getElementById('my_modal_5').showModal()
+                        )
                       }
                     >
                       <FcViewDetails className="text-3xl" />
                     </button>
-
-                    <dialog id="my_modal_2" className="modal">
-                      <div className="modal-box ">
-                        <div className="w-full">
-                          <div className="w-full ">
-                            <h2 className="text-center font-bold ">
-                              {item?.task_title}
-                            </h2>
-                            <p className="mb-4 text-xl font-bold text-green-500">
-                              {item?.task_detail}
-                            </p>
-                            <img
-                              className="w-full object-cover object-center  lg:h-[300px] md:h-[300px]"
-                              src={item?.task_image}
-                              alt=""
-                            />
-                          </div>
-                          <div className="mt-4">
-                            <p className="mt-4">
-                              submission info :{' '}
-                              <span className="font-semibold">
-                                {item?.submission_info}
-                              </span>
-                            </p>
-                            <div className="flex justify-between">
-                              <h2 className="my-4">
-                                Completion date : {item?.completion_date}
-                              </h2>
-
-                              <p className="my-3">
-                                Task quantity : {item?.task_quantity} person
-                              </p>
-                            </div>
-                            <div className="flex justify-between">
-                              <p className="flex ">
-                                Payable amount : {item?.payable_amount}{' '}
-                                <BiSolidCoinStack className="text-2xl text-orange-400" />
-                              </p>
-                              <p className="">
-                                Current Time : {item?.current_time}
-                              </p>
-                            </div>
-                            <div>
-                              <hr className="my-7 border-dashed border-green-400" />
-
-                              <h2 className="my-3">
-                                Creator Name : {item?.creator_name}
-                              </h2>
-                              <h2>Creator email : {item?.creator_email}</h2>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <form method="dialog" className="modal-backdrop">
-                        <button>close</button>
-                      </form>
-                    </dialog>
                   </td>
                   <td>
                     <button
@@ -258,7 +234,8 @@ const CreatorHome = () => {
                           item?._id,
                           item.worker_email,
                           item?.task_title,
-                          item?.payable_amount
+                          item?.payable_amount,
+                          item?.task_id
                         )
                       }
                       className=" rounded-3xl font-bold btn bg-red-100 text-red-700"
@@ -271,6 +248,53 @@ const CreatorHome = () => {
             ))}
           </table>
         </div>
+
+        <dialog id="my_modal_5" className="modal">
+          <div className="modal-box ">
+            <div className="w-full">
+              <div className="w-full ">
+                <h2 className="text-center font-bold ">{task_title}</h2>
+                <p className="mb-4 text-xl font-bold text-green-500">
+                  {task_detail}
+                </p>
+                <img
+                  className="w-full object-cover object-center  lg:h-[300px] md:h-[300px]"
+                  src={task_image}
+                  alt=""
+                />
+              </div>
+              <div className="mt-4">
+                <p className="mt-4">
+                  submission info :{' '}
+                  <span className="font-semibold">{submission_info}</span>
+                </p>
+                <div className="flex justify-between items-center">
+                  <h2 className="my-4">Completion date : {completion_date}</h2>
+
+                  <p className="flex ">
+                    Payable amount : {payable_amount}{' '}
+                    <BiSolidCoinStack className="text-2xl text-orange-400" />
+                  </p>
+                </div>
+                <div className="flex justify-between">
+                  <p className="">Current Time : {current_time}</p>
+                </div>
+                <p>submission_details: {submission_details}</p>
+                <div>
+                  <hr className="my-7 border-dashed border-green-400" />
+
+                  <h2 className="my-3">Creator Name : {creator_name}</h2>
+                  <h2>Creator email : {creator_email}</h2>
+                  <h2 className="my-3">Worker name : {worker_name}</h2>
+                  <h2> worker email : {worker_email}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form method="dialog" className="modal-backdrop">
+            <button>close</button>
+          </form>
+        </dialog>
       </div>
     </div>
   );
